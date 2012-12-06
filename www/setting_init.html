@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<!-- iPad/iPhone specific css below, add after your main css >
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+		-->
+
+		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+		<script type='text/javascript' charset="utf-8" src="js/jquery.validate.min.js"></script>
+
+		<script type="text/javascript">
+			$(document).bind("mobileinit", function() {
+				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
+
+			$(document).ready(function(){
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
+
+			function onDeviceReady() {
+
+				// 販売者情報の読み込み
+				var fname = 'setting';
+				getFile(fname,onSettingOK,onSettingNG);
+				
+			}
+
+			function onSettingOK(json) {
+				// ファイルの読み込み
+				$("#app_ver").val(json.app_ver);
+				$("#app_code").val(json.app_code);
+				$("#url").val(json.url);
+				$("#http").val(json.http);
+				$("#https").val(json.https);
+				
+				console.log("正常にテキストを読み込みました。uid " + json.uid);
+			}
+			
+			function onSettingNG(message){
+				window.location.href = 'index.html';
+				return false;
+			}
+			
+			// 新規登録
+			function savePass() {
+				var result = $("#form_password").validate().form();
+				// 入力値
+				if (result == false) {
+					console.log("uname: " + $("#uname").val());
+					return false;
+				}else{
+                
+					var setting = {};
+					setting['app_ver']  = $("#app_ver").val();
+					setting['app_code'] = $("#app_code").val();
+	
+					setting['uname']     = $("#uname").val();
+					setting['password']  = $("#password").val();
+					setting['act_pw']    = $("#act_pw").val();
+	                setting['url']       = $("#url").val();
+	                setting['http']      = $("#http").val();
+	                setting['https']     = $("#https").val();
+	
+					console.log("app_ver: "  + setting['app_ver']);
+					console.log("app_code: " + setting['app_code']);
+					console.log("uname: "   + setting['uname']);
+	
+					// 送信
+					var url = $("#https").val()+'company01/receive_act_pw.php';
+	
+					var params = setting;
+	
+	                $("#mainC").css("display","none");
+	                $("#loading").css("display","block");
+	                
+					$.ajax({
+						type: "POST",
+						url: url,
+						data:params,
+						success: function(data){
+							// 戻り値の保存
+							console.log("uid: "  + data.uid );
+							console.log("act_key: " + data.act_key	);
+							// ファイル登録
+							if(data.uid && data.uid > 0){
+								//json
+								var datalist = {
+									uid      : data.uid,
+									act_key  : data.act_key,
+									app_ver  : setting.app_ver,
+									app_code : setting.app_code,
+									url      : setting.url,
+									http     : setting.http,
+									https    : setting.https
+								}
+								savePassOk(datalist);
+								
+							}else{
+								
+								message = 'ログインＩＤまたはパスワードに誤りがあります。';
+								title = '認証エラー';
+								button = 'OK';
+								navigator.notification.alert(message, alertCallBack(), title, button);
+							}
+						},
+						error: function(data) {
+							message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
+							title = 'サーバーと通信できませんでした';
+							button = 'OK';
+							navigator.notification.alert(message, alertCallBack(), title, button);
+						}
+					});
+				}
+
+			}
+
+			// alertCallBack -----------------------------------------------------------------------
+			function alertCallBack() {
+                $("#mainC").css("display","block");
+                $("#loading").css("display","none");
+				location.reload(true);
+			}
+
+			// datalist -----------------------------------------------------------------------
+			function savePassOk(datalist) {
+				
+				// ファイル登録
+				var fname = 'setting';
+				setFile(fname, datalist, passtimeSet, passtimeSet);
+			}
+			
+			function passtimeSet(){
+				// 暗証番号をもとめるリミット
+				var psstime = {};
+				psstime['pass_time'] = parseInt(new Date() / 1000);
+				var fname2 = 'passtime';
+				setFile(fname2, psstime, goHref, goHref);
+			}
+			
+			function goHref(){
+				location.href = "barcode.html";
+			}
+						
+		</script>
+
+		<style type='text/css'>
+			label.error {
+				color: red;
+				font-size: 16px;
+				font-weight: normal;
+				line-height: 1.4;
+				margin-top: 0.5em;
+				width: 100%;
+				float: none;
+			}
+
+			label.error {
+				display: inline-block;
+				margin-left: 22%;
+			}
+
+			label.error {
+				margin-left: 0;
+				display: block;
+			}
+
+			em {
+				color: red;
+				font-weight: bold;
+				padding-right: .25em;
+			}
+
+		</style>
+
+		<script type='text/javascript'>
+			$(function() {
+				$.extend($.validator.messages, {
+					required : "必須項目です",
+					number : "数値のみで入力してください",
+					equalTo : 'もう一度同じ値を入力して下さい。',
+					email : "メールアドレスを入力してください"
+				});
+
+				$('#form_password').validate({
+					// それぞれの項目に適用される検証ルール
+					rules : {
+						act_pw : {
+							required : true, // 必須検証
+							number : true,
+							rangelength : [4, 16] // 文字列長検証 (4～16文字)
+						},
+						re_pass : {
+							equalTo : '[name=act_pw]'
+						}
+
+					},
+
+					// 検証エラー時に表示されるエラー メッセージ
+					messages : {
+						act_pw : {
+							required : '暗証番号は必ず入力してください。',
+							number : '暗証番号は数字で入力してください。',
+							rangelength : $.format('暗証番号は{0}から{1}文字で入力してください。')
+						},
+						re_pass : {
+							equalTo : '上と同じ暗証番号を入力してください'
+						}
+
+					},
+
+					// エラーの位置を設定します。
+					// 下記ではラジオボタンとチェックボックスのエラーメッセージを
+					// グループの最後に表示するように調整しています。
+					errorPlacement : function(error, element) {
+						if (element.is(':radio, :checkbox')) {
+							error.appendTo(element.parent());
+						} else {
+							error.insertAfter(element);
+						}
+					}
+				});
+			});
+		</script>
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+
+	</head>
+
+	<body>
+
+		<div data-role="page" data-add-back-btn="false" data-theme="z">
+
+			<div data-role="header" id="header" data-position="fixed">
+				<h1>ログイン設定</h1>
+                <a href="website.html?page=tr_company.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">
+                    使い方</a>
+			</div>
+            
+			<!-- loading -->
+			<div class="cont_itemDetail" data-role="content" id="loading" style="text-align:center;top:50px;display:none;">
+				<h1>Please Waiting...</h1>
+				<div >
+					<img src="images/loading_bar_or.gif" />
+				</div>
+			</div>
+            
+			<div class="cont_passcode_edit" data-role="content" id="mainC">
+
+				<div class="page_description">
+					<div class="txt">
+						ExOrderの販売業者ログイン情報を入力してください。
+					</div>
+					<br/>
+					<div class="txt" style="color: red;">
+						※ 次回以降、暗証番号のみでログインできます。<br />暗証番号を忘れた場合も、こちらから再設定可能です。
+					</div>
+				</div>
+
+				<form method="post" action="" id="form_password"  onSubmit="return savePass();">
+
+					<input type="hidden" id="app_ver" name="app_ver" value=""/>
+					<input type="hidden" id="app_code" name="app_code" value=""/>
+					<input type="hidden" id="url" name="url" value=""/>
+					<input type="hidden" id="http" name="http" value=""/>
+					<input type="hidden" id="https" name="https" value=""/>
+
+					<div data-role="fieldcontain" >
+						<ul class="setup_list" data-role="listview">
+
+							<li>
+								ExOrderのログインＩＤとパスワードを入力してください。
+							</li>
+
+							<li class="passcode">
+								<label for="uname" class="fieldLabel">ログインＩＤ</label>
+								<input type="text" id="uname" name="uname" class="required" value="" />
+							</li>
+
+							<li class="passcode">
+								<label for="password" class="fieldLabel">パスワード</label>
+								<input type="password" id="password" name="password" class="required" value="" />
+							</li>
+
+							<li>
+								次回以降の接続は暗証番号を入力するだけで可能です。<br />
+								任意の番号を下記に入力してください。
+							</li>
+							
+							<li class="passcode">
+								<label for="act_pw" class="fieldLabel">暗証番号<span class="form_note">(数字4～16桁)</span></label>
+								<input type="password" id="act_pw" name="act_pw" class="required" value="" maxlength=16 placeholder="数字4～16桁" />
+							</li>
+
+							<li class="passcode">
+								<label for="re_pass" class="fieldLabel">確認のため再入力<span class="form_note">(数字4～16桁)</span></label>
+								<input type="password" id="re_pass" name="re_pass" class="password_confirm required" value="" maxlength=16 placeholder="上とと同じ値を入力" />
+							</li>
+
+							<li class="item_buy_1btn btn_txt_ow">
+								<div>
+                                    <input type="submit" class="btn_next" value="登録する"/>
+                                </div>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<!-- nav -->
+			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+				<ul>
+					<li class="tab01 ">
+						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
+					</li>
+					<li class="tab02">
+						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
+					</li>
+					<li class="tab03 current">
+						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+					</li>
+				</ul>
+				<!-- /dr-footer -->
+			</div>
+
+		</div>
+	</body>
+</html>
+

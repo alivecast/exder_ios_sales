@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<!-- iPad/iPhone specific css below, add after your main css >
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+		-->
+
+		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+				
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+
+
+
+		<script type="text/javascript">
+		
+					
+            $( document ).bind( "mobileinit", function() {
+                               // jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+                               $.support.cors = true;
+                               $.mobile.allowCrossDomainPages = true;
+            });
+		
+			$(document).ready(function(){
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
+
+			function onDeviceReady() {
+				var fname = 'setting';
+				getFile(fname,settingOK,settingNG);
+			}
+
+			function settingOK(json){
+								
+				url = json.http+'company01/get_act_index.php';
+				hash = {
+					uid: json.uid,
+					act_key: json.act_key,
+					app_ver: json.app_ver,
+					app_code: json.app_code
+				};
+
+				$.ajax({
+					type: "POST",
+					url: url,
+					data:hash,
+					success: function(data){
+						// loading追加処理
+						$('#loading').css('display', 'none');
+						$('#content').css('display', 'block');
+						// 購入一覧表示
+						console.log('ORDER_INDEX: ' + JSON.stringify(data));
+						show_order_index(data);
+					},
+					error: function(data) {
+						message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
+						title = 'サーバーと通信できませんでした';
+						button = 'OK';
+						navigator.notification.alert(message, errorPostCallBack(), title, button);
+						return false;
+					}
+				});
+			}
+			
+			// alertCallBack -----------------------------------------------------------------------
+			function errorPostCallBack() {
+                $("#loading").html("<p>しばらくおまちしてから、メニューの「販促物一覧」をタップしなおしてください。</p>");
+//					window.location.href = 'setting_init.html';
+			}
+			
+			function alertCallBack() {
+//				window.location.href = 'setting_init.html';
+			}
+
+			function settingNG(){
+				window.location.href = 'index.html';
+			}
+		
+			// 注文一覧HTML
+			function show_order_index(orders) {
+				
+				// 購入商品一覧
+				var length = orders.length;
+				var order_indexs_yes = '';
+				var order_indexs_no  = '';
+				
+				if (length > 0) {
+					
+					for (var i = 0; i < length; i++) {
+						console.log('order: ' + JSON.stringify(orders[i].item_name));
+						var qr_id = orders[i].qr_id;
+						var order_index = '';
+
+						order_index += '<dt></dt><dd><ul data-role="listview"><li>';
+						order_index += '<a href="show_item.html?qr_id=' + qr_id + '" target="_blank"><div class="box2">';
+						if (orders[i].item_is_stop_flg == 'disable') {
+							// 販売一時停止
+							order_index += '<div class="order_defined">';
+						}else{
+							// 有効化済
+							order_index += '<div class="shipment_notification">';
+						}
+						order_index += orders[i].shop_name + '</div>';
+						
+						// 商品写真
+						order_index += '<div class="box2_01 item_img"><div class="inner">';
+						order_index += '<img src="' + orders[i].item_image + '" width="60" height="60" />';
+						order_index += '</div></div>';
+						// 商品名
+						order_index += '<div class="box2_02 item_name">';
+						order_index += '<h1 class="name">' + orders[i].item_name + '</h1>';
+						order_index += '<p>価格：' + orders[i].item_price + '円　　在庫数：' + orders[i].item_stock + '個</p>';
+						order_index += '</div>';
+						order_index += '</div></a></li></ul></dd>';
+						
+						if (orders[i].item_is_stop_flg == 'disable') {
+							// 販売一時停止
+							order_indexs_no += order_index;
+							$("#order_indexs_no").html(order_indexs_no);
+						}else{
+							// 有効化済
+							order_indexs_yes += order_index;
+							$("#order_indexs_yes").html(order_indexs_yes);
+						}
+
+					}
+					
+				}
+				
+				if(order_indexs_no == ''){
+					$("#order_indexs_no").html('<dt></dt><dd><ul data-role="listview"><li>掲載を一時中止している販促物はありません。</li></ul></dd>');
+				}else{
+					$("#order_indexs_no").html(order_indexs_no);
+				}
+
+				if(order_indexs_yes == ''){
+					$("#order_indexs_yes").html('<dt></dt><dd><ul data-role="listview"><li>有効化した販促物はありません。</li></ul></dd>');
+				}else{
+					$("#order_indexs_yes").html(order_indexs_yes);
+				}					
+
+			}
+
+		</script>
+		
+		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+		
+	</head>
+
+	<body>
+
+		<div data-role="page" data-add-back-btn="false" data-theme="z">
+			
+			<div data-role="header" id="header" data-position="fixed">
+				<h1>販促物一覧</h1>
+                <a href="website.html?page=tr_company.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">
+                    使い方</a>
+			</div>
+			<!-- loading -->
+			<div class="cont_itemDetail" data-role="content" id="loading" style="text-align:center;top:50px">
+				<h1>Please Waiting...</h1>
+				<div >
+					<img src="images/loading_bar_or.gif" />
+				</div>
+			</div>
+			<!-- content -->
+			<div class="cont_orderInfoApp_index" data-role="content" id="content" style="display:none;">
+				<!-- 更新日時 -->
+				<div id="update_time" class="update_time">販売一時中止</div>
+				<!-- 注文一覧 -->
+				<dl class="orderInfoApp_list" id="order_indexs_no">
+				</dl>
+
+				<!-- 更新日時 -->
+				<div id="update_time2" class="update_time">QR有効化　済</div>
+				<!-- 注文一覧 -->
+				<dl class="orderInfoApp_list" id="order_indexs_yes">
+				</dl>
+			</div>
+
+			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+				<ul>
+					<li class="tab01 current">
+						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
+					</li>
+					<li class="tab02">
+						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
+					</li>
+					<li class="tab03">
+						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+					</li>
+				</ul>
+			</div><!-- /dr-footer -->
+		</div>
+
+	</body>
+</html>
+

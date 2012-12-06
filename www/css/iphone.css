@@ -1,0 +1,1835 @@
+
+/*=================================================
+ * ブラウザのデフォルトのスタイルをリセットする
+ * ================================================= */
+
+html, body, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p,
+header, hgroup, section, article, aside, hgroup, footer, figure, figcaption, nav {
+ margin: 0;
+ padding: 0;
+ font-size: 100%;
+}
+
+body {
+	/* 英数の改行 */
+	word-break: break-all;
+	word-wrap: break-word;
+	line-height: 1.4;
+	-webkit-text-size-adjust: none;
+}
+
+article,aside,canvas,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section,summary { 
+ display:block;
+}
+
+img {
+ border: 0;
+ vertical-align: bottom;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight:normal;
+}
+
+ul, ol {
+ list-style: none;
+}
+
+table {
+ border-spacing: 0;
+ empty-cells: show;
+}
+
+em {
+	font-style:normal;
+}
+
+a {
+	text-decoration:none;
+	color:#333;
+}
+
+
+/*=================================================
+ * iPhone.cssのデフォルト
+ * ================================================= */
+ 
+a {
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+    font-family: Helvetica;
+}
+
+h1 {
+    font-size: 1.4em;
+	font-weight:bold;
+}
+
+/* ---------- JQM theme customization ------------- */
+
+.ui-bar-a {
+	border: 1px solid 		#ccc;
+	background: 			#bbb;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+	/* default */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #aebbcb), color-stop(0.5, #8094ae), color-stop(1.0, #6e84a2));
+	
+	/* 緑（販売者） */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F1F5D5), color-stop(0.05, #CFDD6F), color-stop(0.5, #C3D353), color-stop(0.51, #B3C534), color-stop(0.95, #B6C837), color-stop(1.0, #CCDB68));
+	border:#515915 1px solid;
+	
+	
+	
+/*
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#bbb));
+*/
+}
+.ui-bar-a,
+.ui-bar-a input,
+.ui-bar-a select,
+.ui-bar-a textarea,
+.ui-bar-a button {
+	font-family: Helvetica, Arial, sans-serif;
+}
+.ui-bar-a .ui-link-inherit {
+	color: 					#333;
+}
+.ui-bar-a .ui-link {
+	color: 					#2489CE;
+	font-weight: bold;
+}
+
+
+
+.ui-btn-up-a {
+
+/*
+    -webkit-border-radius: 5px;
+    overflow: hidden;
+    text-align: center;
+    width: auto;
+    height: 30px;
+    font-size: .9em;
+    border-left: #5e7088 1px solid;
+    border-right: #5e7088 1px solid;
+    border-top: #34404e 1px solid;
+    border-bottom: #34404e 1px solid;
+    padding: 0 2px 0 2px;
+
+
+	border: 1px solid 		#222;
+	background: 			#333333;
+	font-weight: bold;
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+	
+*/
+	
+	/* default btn */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #92a4bc), color-stop(0.5, #476997), color-stop(1.0, #4e6c92));
+	
+	/* 緑（販売者） */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #CAD76C), color-stop(0.05, #C3D157), color-stop(0.5, #A3B811), color-stop(0.51, #8C9F0C), color-stop(0.95, #91A30D), color-stop(1.0, #91A30D));
+	border:#515915 1px solid;
+	
+/*
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#777), to(#555));
+*/
+}
+.ui-btn-up-a a.ui-link-inherit {
+	color: 					#fff;
+}
+.ui-btn-hover-a {
+	/*
+	border: 1px solid 		#000;
+	background: 			#444444;
+	font-weight: bold;
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+	*/
+	
+	/* default btn */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#888), to(#666));
+	
+	/* 緑（販売者） */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F1F5D5), color-stop(0.05, #CFDD6F), color-stop(0.5, #C3D353), color-stop(0.51, #B3C534), color-stop(0.95, #B6C837), color-stop(1.0, #CCDB68));
+	border:#515915 1px solid;
+	
+	
+	
+}
+.ui-btn-hover-a a.ui-link-inherit {
+	color: 					#fff;
+}
+.ui-btn-down-a {
+	/*
+	border: 1px solid 		#000;
+	background: 			#3d3d3d;
+	font-weight: bold;
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+	
+	/* default btn */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#555), to(#7a7a7a));
+	
+	/* 緑（販売者） */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F1F5D5), color-stop(0.05, #CFDD6F), color-stop(0.5, #C3D353), color-stop(0.51, #B3C534), color-stop(0.95, #B6C837), color-stop(1.0, #CCDB68));
+	border:#515915 1px solid;
+}
+.ui-btn-down-a a.ui-link-inherit {
+	color: 					#fff;
+}
+.ui-btn-up-a,
+.ui-btn-hover-a,
+.ui-btn-down-a {
+	font-family: Helvetica, Arial, sans-serif;
+	text-decoration: none;
+}
+
+
+.ui-body-c {
+	border: 1px solid 		#B3B3B3;
+	color: 					#333333;
+	text-shadow: 0 1px 0 	#fff;
+	background: 			#f0f0f0;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ddd));
+}
+.ui-body-c,
+.ui-body-c input,
+.ui-body-c select,
+.ui-body-c textarea,
+.ui-body-c button {
+	font-family: Helvetica, Arial, sans-serif;
+}
+.ui-body-c .ui-link-inherit {
+	color: 					#333333;
+}
+.ui-body-c .ui-link {
+	color: 					#2489CE;
+	font-weight: bold;
+}
+
+.ui-btn-up-c {
+	border: 1px solid 		#ccc;
+	background: 			#eee;
+	font-weight: bold;
+	color: 					#444;
+	text-shadow: 0 1px 1px #f6f6f6;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fdfdfd), to(#eee));
+}
+.ui-btn-up-c a.ui-link-inherit {
+	color: 					#2F3E46;
+}
+
+.ui-btn-hover-c {
+	border: 1px solid 		#bbb;
+	background: 			#dadada;
+	font-weight: bold;
+	color: 					#101010;
+	text-shadow: 0 1px 1px 	#fff;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#dadada));
+}
+.ui-btn-hover-c a.ui-link-inherit {
+	color: 					#2F3E46;
+}
+.ui-btn-down-c {
+	border: 1px solid 		#808080;
+	background: 			#fdfdfd;
+	font-weight: bold;
+	color: 					#111111;
+	text-shadow: 0 1px 1px 	#ffffff;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fdfdfd));
+}
+.ui-btn-down-c a.ui-link-inherit {
+	color: 					#2F3E46;
+}
+.ui-btn-up-c,
+.ui-btn-hover-c,
+.ui-btn-down-c {
+	font-family: Helvetica, Arial, sans-serif;
+	text-decoration: none;
+}
+
+
+.ui-corner-tl {
+	-moz-border-radius-topleft: 		4px;
+	-webkit-border-top-left-radius: 	4px;
+	border-top-left-radius: 			4px;
+}
+.ui-corner-tr {
+	-moz-border-radius-topright: 		4px;
+	-webkit-border-top-right-radius: 	4px;
+	border-top-right-radius: 			4px;
+}
+.ui-corner-bl {
+	-moz-border-radius-bottomleft: 		4px;
+	-webkit-border-bottom-left-radius: 	4px;
+	border-bottom-left-radius: 			4px;
+}
+.ui-corner-br {
+	-moz-border-radius-bottomright: 	4px;
+	-webkit-border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 		4px;
+}
+.ui-corner-top {
+	-moz-border-radius-topleft: 		4px;
+	-webkit-border-top-left-radius: 	4px;
+	border-top-left-radius: 			4px;
+	-moz-border-radius-topright: 		4px;
+	-webkit-border-top-right-radius: 	4px;
+	border-top-right-radius: 			4px;
+}
+.ui-corner-bottom {
+	-moz-border-radius-bottomleft: 		4px;
+	-webkit-border-bottom-left-radius: 	4px;
+	border-bottom-left-radius: 			4px;
+	-moz-border-radius-bottomright: 	4px;
+	-webkit-border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 		4px;
+	}
+.ui-corner-right {
+	-moz-border-radius-topright: 		4px;
+	-webkit-border-top-right-radius: 	4px;
+	border-top-right-radius: 			4px;
+	-moz-border-radius-bottomright: 	4px;
+	-webkit-border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 		4px;
+}
+.ui-corner-left {
+	-moz-border-radius-topleft: 		4px;
+	-webkit-border-top-left-radius: 	4px;
+	border-top-left-radius: 			4px;
+	-moz-border-radius-bottomleft: 		4px;
+	-webkit-border-bottom-left-radius: 	4px;
+	border-bottom-left-radius: 			4px;
+}
+.ui-corner-all {
+	-moz-border-radius: 				4px;
+	-webkit-border-radius: 				4px;
+	border-radius: 						4px;
+}
+
+
+
+.ui-btn-corner-tl {
+	-moz-border-radius-topleft: 		7px;
+	-webkit-border-top-left-radius: 	7px;
+	border-top-left-radius: 			7px;
+}
+.ui-btn-corner-tr {
+	-moz-border-radius-topright: 		7px;
+	-webkit-border-top-right-radius: 	7px;
+	border-top-right-radius: 			7px;
+}
+.ui-btn-corner-bl {
+	-moz-border-radius-bottomleft: 		7px;
+	-webkit-border-bottom-left-radius: 	7px;
+	border-bottom-left-radius: 			7px;
+}
+.ui-btn-corner-br {
+	-moz-border-radius-bottomright: 	7px;
+	-webkit-border-bottom-right-radius: 7px;
+	border-bottom-right-radius: 		7px;
+}
+.ui-btn-corner-top {
+	-moz-border-radius-topleft: 		7px;
+	-webkit-border-top-left-radius: 	7px;
+	border-top-left-radius: 			7px;
+	-moz-border-radius-topright: 		7px;
+	-webkit-border-top-right-radius: 	7px;
+	border-top-right-radius: 			7px;
+}
+.ui-btn-corner-bottom {
+	-moz-border-radius-bottomleft: 		7px;
+	-webkit-border-bottom-left-radius: 	7px;
+	border-bottom-left-radius: 			7px;
+	-moz-border-radius-bottomright: 	7px;
+	-webkit-border-bottom-right-radius: 7px;
+	border-bottom-right-radius: 		7px;
+}
+.ui-btn-corner-right {
+	 -moz-border-radius-topright: 		7px;
+	-webkit-border-top-right-radius: 	7px;
+	border-top-right-radius: 			7px;
+	-moz-border-radius-bottomright: 	7px;
+	-webkit-border-bottom-right-radius: 7px;
+	border-bottom-right-radius: 		7px;
+}
+.ui-btn-corner-left {
+	-moz-border-radius-topleft: 		7px;
+	-webkit-border-top-left-radius: 	7px;
+	border-top-left-radius: 			7px;
+	-moz-border-radius-bottomleft: 		7px;
+	-webkit-border-bottom-left-radius: 	7px;
+	border-bottom-left-radius: 			7px;
+}
+.ui-btn-corner-all {
+	-moz-border-radius: 				7px;
+	-webkit-border-radius: 				7px;
+	border-radius: 						7px;
+}
+
+/* ---------- Custom fixes ------------- */
+
+.ui-btn-left[data-rel="back"] .ui-btn-inner,
+.ui-btn-left[data-icon="back"] .ui-btn-inner,
+.ui-btn-left[data-icon="arrow-l"] .ui-btn-inner {
+    border-radius: 0;
+    padding-left: 5px;
+}
+.ui-btn-left[data-rel="back"],
+.ui-btn-left[data-icon="back"],
+.ui-btn-left[data-icon="arrow-l"] {
+    margin-top: 2px;
+    -webkit-box-shadow: none;
+/*
+    -webkit-border-bottom-left-radius: 200px 50px;
+    -webkit-border-top-left-radius: 200px 50px;
+*/
+    border-color: transparent;
+    background-color: transparent;
+    background-image: none;
+
+    -webkit-border-bottom-right-radius: 7px 7px;
+    -webkit-border-top-right-radius: 7px 7px;
+    -webkit-border-image: url(../images/backButton.png) 2 7 2 13 stretch stretch;
+    border-width: 1px 5px 2px 13px;
+    width: auto;
+}
+
+a.ui-btn-left[data-rel="back"] .ui-icon,
+a.ui-btn-left[data-icon="back"] .ui-icon,
+a.ui-btn-left[data-icon="arrow-l"] .ui-icon {
+    display: none;
+}
+
+/*
+.ui-btn-left[data-icon="home"] .ui-btn-inner {
+    border-radius: 0;
+    padding-left: 5px;
+}
+.ui-btn-left[data-icon="home"] {
+    margin-top: 2px;
+    -webkit-box-shadow: none;
+    -webkit-border-bottom-left-radius: 16px 16px;
+    -webkit-border-bottom-right-radius: 6px 6px;
+    -webkit-border-image: url(../images/backButton.png) 0 5 0 13 stretch stretch;
+    -webkit-border-top-left-radius: 16px 16px;
+    -webkit-border-top-right-radius: 6px 6px;
+    border-width: 0 5px 0 13px;
+    width: auto;
+}
+a.ui-btn-left[data-icon="home"] {
+    display: none;
+}
+*/
+
+div.itemLabel {
+    font-weight: bold;
+    font-size: 16px;
+}
+div.itemValue {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.ui-content {
+    min-height: 480px;
+	/*
+	background-color:#F0F1F3;
+	*/
+	/*
+    background-image: url(../images/bg_cont.png);
+	*/
+	-webkit-background-size:50px 50px;
+	background-size:50px 50px;
+	padding:0;
+}
+
+.ui-header .ui-title {
+    font-size: 18px;
+	margin-top:0.8em;
+}
+
+.ui-header .ui-btn {
+	top:8px;
+}
+
+.ui-header .ui-btn-right {
+	top:10px;
+}
+
+@media all and (min-width: 320px){
+    .ui-content ul li div.itemLabel {
+		/*
+        display: inline-block;
+        width: 50%;
+        overflow: hidden;
+		*/
+		width:auto;
+		float:none;
+    }
+
+    .ui-content ul li div.itemValue {
+		/*
+        display: inline-block;
+        overflow: hidden;
+		*/
+		
+		width:auto;
+		float:none;
+		text-align:center;
+		
+		background-color:#FC3;
+    }
+}
+
+.errorMessage {
+    color: red;
+    text-align: center
+}
+
+
+
+/*=================================================
+ * AC設定
+ * ================================================= */
+ 
+/* ------------------------------------------/
+　jqm　デフォルトリセット
+------------------------------------------ */
+.ui-content .ui-listview {
+	margin:0;
+}
+
+li.ui-li {
+	border:none;
+	border-top:#FFF 1px solid;
+	border-bottom:#C0CDBE 1px solid;
+}
+
+.ui-listview li:first-child {
+	border-top:none;
+}
+
+.ui-li-has-arrow .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li-has-arrow {
+    padding-right: 35px;
+}
+
+
+/* ---/　input周り
+----------------------------------*/
+.ui-field-contain input.ui-input-text,
+.ui-field-contain textarea.ui-input-text,
+.ui-field-contain .ui-input-search {
+	width:90%;
+	margin-left:0;
+}
+
+.ui-field-contain label.ui-input-text {
+	width:auto;
+	margin-bottom:5px;
+}
+
+/* ---/　checkbox周り
+----------------------------------*/
+.ui-checkbox label {
+	background-color:#DDE5DC;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F5F7F5), color-stop(1.0, #DDE5DC));
+	border:#9AA598 1px solid;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+}
+
+
+/* ---/　radioボタン周り
+----------------------------------*/
+.ui-radio .ui-btn {
+	/* グレー */
+	background-color:#DDE5DC;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F5F7F5), color-stop(1.0, #DDE5DC));
+	border:#9AA598 1px solid;
+	
+	color:#30402E;
+	text-shadow:1px 1px 0 #FFF;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+}
+
+.ui-radio .ui-btn-active {
+	/* 青（薄） */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #51A0C0), color-stop(1.0, #8FC3D5));
+	border:#00506D 1px solid;
+	
+	color:#FFF;
+	text-shadow: 1px 1px 0 #00506D;
+}
+
+.ui-radio .ui-icon, .ui-radio .ui-icon {
+	top:1.3em;
+}
+
+.ui-controlgroup .ui-controlgroup-label {
+	display:block;
+	width:auto;
+	margin-bottom:5px;
+}
+
+.ui-controlgroup .ui-controlgroup-controls {
+	width:100%;
+	margin-left:0;
+}
+
+.ui-radio .ui-corner-left {
+	-webkit-border-radius: 20px 0 0 20px;
+	-moz-border-radius: 20px 0 0 20px;
+	-ms-border-radius: 20px 0 0 20px;
+	border-radius: 20px 0 0 20px;
+}
+
+.ui-radio .ui-corner-right {
+	-webkit-border-radius: 0 20px 20px 0;
+	-moz-border-radius: 0 20px 20px 0;
+	-ms-border-radius: 0 20px 20px 0;
+	border-radius: 0 20px 20px 0;
+}
+
+
+
+
+/* ---/　select周り
+----------------------------------*/
+.ui-select {
+	margin-left:0;
+	width:100%;	
+}
+
+.ui-btn {
+	/*
+	margin: 0.5em 0;
+	*/
+	margin:0;
+}
+
+.ui-li-desc {
+	margin:0;
+}
+ 
+.ui-select .ui-btn {
+	background-color:#DDE5DC;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F5F7F5), color-stop(1.0, #DDE5DC));
+	border:#9AA598 1px solid;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+	
+	margin:0;
+	
+	color:#30402E;
+	
+	line-height:1.8em;
+}
+
+.ui-select .ui-btn select {
+	width:100%;
+	margin-left:5px;
+}
+
+.ui-select .ui-btn-inner {
+	font-size:16px;
+	margin-top:-3px;
+}
+
+/* ------------------------------------------/
+　共通レイアウト
+------------------------------------------ */
+body {
+	font-size:13px;
+    background:#EEEFEF url(../images/bg_cont.png) 0 0 repeat;
+	/*
+	-webkit-background-size:50px 50px;
+	background-size:50px 50px;
+	*/
+}
+
+.footer {
+	border:none;
+	background:none;
+}
+
+.footer ul {
+	padding-top:14px;
+	height:50px;
+	background:transparent url(../images/bg_tabber.png) 0 0 repeat-x;
+	-webkit-background-size:3px 64px;
+	background-size:3px 64px;
+	overflow:hidden;
+}
+
+.footer li {
+	float:left;
+	height:50px;
+}
+
+.footer li.tab01,
+.footer li.tab03 {
+	width:25%;
+}
+
+.footer li.tab02 {
+	width:50%;
+	background:url(../images/bg_tabber_read.png) 0 0 no-repeat;
+	/*
+	-webkit-background-size:100% 19px;
+	background-size:100% 19px;
+	*/
+	-webkit-background-size:100% 23px;
+	background-size:100% 23px;
+	
+	margin-top:-14px;
+	
+	padding-top:14px;
+}
+
+.footer li a.ui-link {
+	font-size:10px;
+	color:#FFF;
+	display:block;
+}
+
+.footer li.current {
+	background:url(../images/bg_tabber_current.png) 2px 50% no-repeat;
+	-webkit-background-size:76px 41px;
+	background-size:76px 41px;
+}
+
+.footer li.tab02.current {
+	background:url(../images/bg_tabber_read_current.png) 0 50% no-repeat;
+	-webkit-background-size:100% 64px;
+	background-size:100% 64px;
+}
+
+
+.footer li a span {
+	display:block;
+	height:15px;
+	padding-top:35px;
+	text-align:center;
+	color:#DDD;
+}
+
+.footer li.tab01 a span {
+	background:url(../images/ico_tab_history.png) 50% 8px no-repeat;
+	-webkit-background-size:30px 22px;
+	background-size:30px 22px;
+}
+
+.footer li.current.tab01 a span {
+	background:url(../images/ico_tab_history_select.png) 50% 8px no-repeat;
+	-webkit-background-size:30px 22px;
+	background-size:30px 22px;
+	color:#F2F2F2;
+}
+
+
+.footer li.tab02 a span {
+	background:url(../images/ico_tab_read.png) 50% 3px no-repeat;
+	-webkit-background-size:30px 30px;
+	background-size:30px 30px;
+}
+
+.footer li.tab02.current a span {
+	background:url(../images/ico_tab_read_select.png) 50% 3px no-repeat;
+	-webkit-background-size:30px 30px;
+	background-size:30px 30px;
+	color:#F2F2F2;
+}
+
+
+.footer li.tab03 a span {
+	background:url(../images/ico_tab_setup.png) 50% 8px no-repeat;
+	-webkit-background-size:26px 26px;
+	background-size:26px 26px;
+}
+
+.footer li.tab03.current a span {
+	background:url(../images/ico_tab_setup_select.png) 50% 8px no-repeat;
+	-webkit-background-size:26px 26px;
+	background-size:26px 26px;
+	color:#F2F2F2;
+}
+
+
+.ui-bar-a li a.ui-link:hover span {
+	color:#F2F2F2;
+}
+
+
+/* ------------------------------------------/
+　パーツ
+------------------------------------------ */
+
+/* ---/　ボタン
+----------------------------------*/
+
+.btn_next {
+	/*　オレンジ */
+	background-color:#F2720D;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #FB930C), color-stop(1.0, #F2720D));
+	border:#DA7B18 1px solid;
+	
+	color:#FFF;
+	text-shadow:1px 1px 0 #DA7B18;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset, 2px 2px 2px rgba(0,0,0,0.2);
+	box-shadow: 0 1px 1px #FFF inset, 2px 2px 2px rgba(0,0,0,0.2);
+}
+
+input.btn_next,
+button.btn_next {
+	opacity:1;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	-ms-border-radius: 7px;
+	border-radius: 7px;
+	
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* オレンジbtnでinput,buttonの場合のテキストの設定 */
+.btn_txt_ow .ui-btn-text {
+	color:#FFF;
+	text-shadow:1px 1px 0 #DA7B18;
+}
+
+.ui-btn-text {
+	z-index:3;
+}
+
+
+.btn_prev {
+	/* グレー */
+	background-color:#DDE5DC;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F5F7F5), color-stop(1.0, #DDE5DC));
+	border:#9AA598 1px solid;
+	
+	color:#30402E;
+	text-shadow:1px 1px 0 #FFF;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+}
+
+.btn_prev .ui-btn-inner {
+	padding:0.6em 5px;
+}
+
+
+/* ---/　box
+----------------------------------*/
+.box2 {
+}
+
+.box2:after {/* clearfix */
+	display:block;
+	clear:both;
+	content:'';
+} 
+
+.box2 .box2_01,
+.box2 .box2_02 {
+	float:left;
+	width:50%;
+}
+
+/* 2個並びbtnの場合 */
+.box2 .box2_01 a {
+	margin-right:5px;
+}
+
+.box2 .box2_02 a {
+	margin-left:5px;
+}
+
+
+
+
+/* ------------------------------------------/
+　商品詳細
+------------------------------------------ */
+
+
+/* ---/　商品情報の変更
+----------------------------------*/
+
+.data_change {
+	background-color:#FAFAFA;
+	border-top:#C4C4C4 1px solid;
+	border-bottom:#C4C4C4 1px solid;
+	
+	padding:0 10px 0;
+	
+	-webkit-box-shadow: 0 -2px 2px rgba(0,0,0,0.1) inset;
+	box-shadow: 0 -2px 2px rgba(0,0,0,0.1) inset;
+}
+
+.data_change .tl {
+	background-color:#FCB104;
+	border:#D97A18 1px solid;
+	
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1), 1px 1px 1px rgba(255,255,255,0.5) inset;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.1), 1px 1px 1px rgba(255,255,255,0.5) inset;
+	
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	-ms-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
+	
+	height:30px;
+	line-height:30px;
+	padding:0 10px;	
+	margin-bottom:5px;
+	
+	color:#FFF;
+	font-size:14px;
+	text-shadow: 1px 1px 1px #D97B18;
+}
+
+.data_change li {
+	background:url(../images/icon_list_o.png) 0 0.4em no-repeat;
+	-webkit-background-size:10px 10px;
+	background-size:10px 10px;
+	padding-left:15px;
+	margin-bottom:5px;
+	
+	color:#F30;
+}
+
+
+
+
+/* ---/　商品の概要
+----------------------------------*/
+.item_summary {
+}
+
+/* ---/ 商品名 /--- */
+.item_name {
+	/*
+	padding:5px 10px;
+	*/
+}
+
+.item_name .ui-li-heading {
+	margin:0;
+}
+
+
+
+/* ---/ 商品画像 /--- */
+.item_name {
+}
+
+.item_img_price .item_img {
+	width:150px;
+}
+
+
+/* ---/ 価格 /--- */
+.item_img_price .item_price {
+	float:none;
+	margin-left:160px;
+	width:auto;
+}
+
+.price,
+.shippingCost {
+	border-bottom:#EDF1EC 1px solid;
+	margin-bottom:5px;
+}
+
+.price dt,
+.shippingCost dt {
+}
+
+.price dd,
+.shippingCost dd {
+	font-size:18px;
+	color:#F30;
+	text-align:right;
+	border-bottom:#C0CDBE 1px solid;
+}
+
+.price dd span,
+.shippingCost dd span {
+	font-size:12px;
+}
+
+/* 送料一覧へのリンク */
+.box2 .box2_02 a.shippingCost_link {
+	position:relative;
+	display:block;
+	margin-left:0;
+}
+
+.shippingCost_link .ui-icon-arrow-r {
+	right:0;
+	margin-top: -9px;
+	position: absolute;
+	top: 50%;
+}
+
+/* ---/ 販売状況ico /--- */
+
+.ico {
+	width:80px;
+	height:24px;
+	line-height:24px;
+	
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	-ms-border-radius: 12px;
+	border-radius: 12px;
+	
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset;
+	
+	font-size:12px;
+	color:#FFF;
+	text-align:center;
+	
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+/* 残りわずかico */
+.ico_onlyRemaining {
+	background-color:#8ECC43;
+}
+
+/* 販売中止ico */
+.ico_discontinued {
+	background-color:#CF1F36;
+}
+
+/* 入荷待ちico */
+.ico_backOrder {
+	background-color:#FC8F1A;
+}
+
+/* ---/ お届け先 /--- */
+.item_shippingAddress {
+}
+
+.item_shippingAddress .address {
+	margin-bottom:5px;
+}
+
+.item_shippingAddress .address span {
+	font-size:16px;
+	margin-left:5px;
+}
+
+
+/* ---/ 数量・購入ボタン /--- */
+.ui-listview .item_quantity_buy {
+	background-color:#C1CEBF;
+	-webkit-box-shadow: 0 2px 2px #999 inset;
+	box-shadow: 0 2px 2px #999 inset;
+	padding:15px 10px;
+	border-top:none;
+}
+
+.item_quantity_buy p {
+	font-size:14px;
+	overflow:visible;
+}
+
+.item_quantity_buy .ui-select {
+	width:90px;
+	display:inline-block;
+}
+
+.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li
+
+
+
+/* ---/ 販売者 /--- */
+.shop_neme {
+}
+
+.ui-li .txt {/* 共通 */
+	font-weight:normal;
+	margin-bottom:5px;
+}
+
+.shop_neme span {
+	font-size:16px;
+	margin-left:5px;
+}
+
+
+/* ---/ 購入する /--- */
+.item_buy_1btn {
+	background-color:#C1CEBF;
+	-webkit-box-shadow: 0 2px 2px #999 inset;
+	box-shadow: 0 2px 2px #999 inset;
+	padding:15px 10px;
+}
+
+.item_buy_1btn .ui-btn-inner a.ui-link-inherit,
+.ui-li-static.ui-li {
+	padding:15px 10px;
+}
+
+
+/* ---/　商品画像（拡大表示）
+----------------------------------*/
+.cont_itemImg {
+	text-align:center;
+	padding-top:20px;
+}
+
+/* ---/　送料一覧
+----------------------------------*/
+.cont_shippingCost {
+}
+
+.cont_shippingCost dt {
+	background-color:#E5EBE3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#DADADE), color-stop(90%, #E4E4E7), to(#E5E5E8));
+	background-image: -webkit-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -moz-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -ms-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	
+	border-top:#B2B2BB 1px solid;
+	border-bottom:#B2B2BB 1px solid;
+	
+	color:#31412F;
+	padding:3px 10px;
+	text-shadow: 1px 1px 0 #FFF;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+}
+
+.cont_shippingCost dd {
+	padding:5px 10px;
+	font-size:14px;
+}
+
+.cont_shippingCost dd li {
+	background:url(../images/icon_list_o.png) 0 0.4em no-repeat;
+	-webkit-background-size:10px 10px;
+	background-size:10px 10px;
+	padding-left:15px;
+	margin-bottom:5px;
+}
+
+.cont_shippingCost dd li strong {
+	color:#F30;
+}
+
+.cont_shippingCost table {
+	width:100%;
+	border-top:#FFF 1px solid;
+	border-left:#FFF 1px solid;
+}
+
+.cont_shippingCost th {
+	width:33%;
+	background-color:#C1CEBF;
+	border-right:#FFF 1px solid;
+	border-bottom:#FFF 1px solid;
+	padding:3px;
+	font-weight:normal;
+}
+
+.cont_shippingCost td {
+	text-align:right;
+	padding:3px 5px 3px 3px;
+	border-right:#C1CEBF 1px solid;
+	border-bottom:#C1CEBF 1px solid;
+}
+
+
+/* ---/　販売者概要
+----------------------------------*/
+.page_shopProfile {
+}
+
+.cont_shopProfile dt {
+	background-color:#E5EBE3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#DADADE), color-stop(90%, #E4E4E7), to(#E5E5E8));
+	background-image: -webkit-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -moz-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -ms-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	
+	border-top:#B2B2BB 1px solid;
+	border-bottom:#B2B2BB 1px solid;
+	
+	color:#31412F;
+	padding:3px 10px;
+	text-shadow: 1px 1px 0 #FFF;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+}
+
+
+.cont_shopProfile dd {
+	padding:5px 10px;
+	font-size:14px;
+}
+
+
+/* ---/　販売者への問い合わせ
+----------------------------------*/
+.form_link .ui-btn-inner {
+	background:url(../images/ico_form_link.png) 10px 50% no-repeat;
+	-webkit-background-size:27px 27px;
+	background-size:27px 27px;
+	padding-left:30px;
+	
+	font-size:14px;
+	line-height:2em;
+	
+}
+
+.tel_link .ui-btn-inner {
+	background:url(../images/ico_tel_link.png) 10px 50% no-repeat;
+	-webkit-background-size:27px 27px;
+	background-size:27px 27px;
+	padding-left:30px;
+	
+	font-size:14px;
+	line-height:2em;
+}
+
+
+
+/* ------------------------------------------/
+　お届け先一覧
+------------------------------------------ */
+
+
+/* ---/　リスト
+----------------------------------*/
+.address_list {
+}
+
+.address_list .ico_check {
+	display:inline-block;
+	width:20px;
+}
+
+
+
+.address_list_description {
+	margin:10px;
+	padding:10px;
+	background-color:rgba(255,255,255,0.6);
+}
+
+
+/* ------------------------------------------/
+　お届け先編集
+------------------------------------------ */
+.cont_addressEdit {
+}
+
+
+/* ---/　
+----------------------------------*/
+
+.address_edit {
+}
+
+/* お届け先名称 */
+.address_subject .txt {
+	margin-top:10px;
+}
+
+
+/* 郵便番号 */
+.address_zipcode .btn_prev {
+	font-size:13px;
+}
+
+/* 住所 */
+.address_pref .ui-btn,
+.address_pref input {
+	margin-bottom:10px;
+}
+
+.address_pref input:last-child {
+	margin-bottom:0;
+}
+
+/* 通常のお届け先に指定check */
+.address_main_check {
+}
+
+.address_main_check label {
+	background-color:#DDE5DC;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F5F7F5), color-stop(1.0, #DDE5DC));
+	border:#9AA598 1px solid;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+	
+	margin:0;
+	
+	color:#30402E;
+	height:36px;
+}
+
+/* 登録する btn */
+.address_submit .ui-btn-text {
+	z-index:5;
+	
+	color:#FFF;
+	text-shadow:1px 1px 0 #DA7B18;
+}
+
+
+/* ------------------------------------------/
+　購入商品一覧
+------------------------------------------ */
+.cont_orderInfoApp_index {
+}
+
+.update_time {
+	background-color:#E5EBE3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#DADADE), color-stop(90%, #E4E4E7), to(#E5E5E8));
+	background-image: -webkit-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -moz-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -ms-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	
+	border-top:#B2B2BB 1px solid;
+	border-bottom:#B2B2BB 1px solid;
+	
+	color:#DE252B;
+	padding:3px 10px;
+	text-shadow: 1px 1px 0 #FFF;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+	
+	text-align:center;
+}
+
+
+
+/* ---/　
+----------------------------------*/
+.orderInfoApp_list {
+}
+
+.orderInfoApp_list dt {
+	background-color:#E5EBE3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#DADADE), color-stop(90%, #E4E4E7), to(#E5E5E8));
+	background-image: -webkit-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -moz-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -ms-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	
+	border-top:#B2B2BB 1px solid;
+	border-bottom:#B2B2BB 1px solid;
+	
+	color:#31412F;
+	padding:3px 10px;
+	text-shadow: 1px 1px 0 #FFF;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+}
+
+.orderInfoApp_list dt span {
+	margin-right:5px;
+}
+
+
+.orderInfoApp_list dd {
+}
+
+.orderInfoApp_list dd .box2_01 {
+	width:70px;
+}
+
+.orderInfoApp_list dd .box2_02 {
+	float:none;
+	width:auto;
+	overflow:hidden;
+}
+
+
+.orderInfoApp_list dd .name {
+	overflow:visible;
+	white-space:normal;
+	text-overflow:clip;
+}
+
+
+/* ---/ 販売者からのお知らせ /--- */
+.message_shop {
+	white-space:normal;
+	background-color:rgba(255,255,255,0.6);
+	margin-top:10px;
+	padding:10px;
+	
+	-webkit-box-shadow: 1px 1px 1px #999 inset;
+	box-shadow: 1px 1px 1px #999 inset;
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	border-radius: 3px;
+
+}
+
+
+
+/* ---/ キャンセル /--- */
+.order_cancel {
+	background-color:#F3BB02;
+	margin-bottom:10px;
+	padding:3px 5px;
+	
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset;
+	
+	font-size:12px;
+	color:#FFF;
+	text-align:center;
+	
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	border-radius: 3px;
+}
+
+/* ---/ 注文確定 /--- */
+.order_defined {
+	background-color:#EF69A4;
+	margin-bottom:10px;
+	padding:3px 5px;
+	
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset;
+	
+	font-size:12px;
+	color:#FFF;
+	text-align:center;
+	
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	border-radius: 3px;
+}
+
+
+/* ---/ 出荷済み /--- */
+.shipment_notification {
+	background-color:#06AA8F;
+	margin-bottom:10px;
+	padding:3px 5px;
+	
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset;
+	
+	font-size:12px;
+	color:#FFF;
+	text-align:center;
+	
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	border-radius: 3px;
+}
+
+
+/* ------------------------------------------/
+　購入商品(個別)
+------------------------------------------ */
+#page_orderInfoApp_show {
+}
+
+.cont_orderInfoApp_show {
+}
+
+
+/* ---/ 注文受付日時 /--- */
+.cont_orderInfoApp_show .order_date {
+	background-color:#E5EBE3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#DADADE), color-stop(90%, #E4E4E7), to(#E5E5E8));
+	background-image: -webkit-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -moz-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -ms-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	
+	border-top:#B2B2BB 1px solid;
+	border-bottom:#B2B2BB 1px solid;
+	
+	color:#31412F;
+	padding:3px 10px;
+	text-shadow: 1px 1px 0 #FFF;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+}
+
+
+.cont_orderInfoApp_show .order_date span {
+	margin-right:10px;
+}
+
+
+/* ---/ お届け先詳細 /--- */
+.item_shippingAddress dl {
+	background-color:rgba(255,255,255,0.6);
+	padding:10px;
+	
+	-webkit-box-shadow: 1px 1px 1px #999 inset;
+	box-shadow: 1px 1px 1px #999 inset;
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	border-radius: 3px;
+}
+
+
+.item_shippingAddress dt {
+	float:left;
+	width:5em;
+}
+
+
+.item_shippingAddress dd {
+	margin-left:5em;
+}
+
+
+
+/* ------------------------------------------/
+　設定（一覧）
+------------------------------------------ */
+#page_list_view {
+}
+
+.cont_list_view {
+}
+
+
+/* ---/ 未設定の場合 /--- */
+.setup_no {
+	background-color:rgba(255,255,255,0.6);
+	
+	-webkit-box-shadow: 0 2px 2px #999 inset;
+	box-shadow: 0 2px 2px #999 inset;
+	border-bottom:#FFF 1px solid;
+
+}
+
+.setup_no .tl {
+	background-color:#EA1B23;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#EA1B23), to(#8F0407));
+	background-image: -webkit-linear-gradient(top, #EA1B23 0%, #8F0407 100%);
+	background-image: -moz-linear-gradient(top, #EA1B23 0%, #8F0407 100%);
+	background-image: -ms-linear-gradient(top, #EA1B23 0%, #8F0407 100%);
+	background-image: linear-gradient(top, #EA1B23 0%, #8F0407 100%);
+	
+	color:#FFF;
+	line-height:30px;
+	padding:0 10px;
+	
+	-webkit-box-shadow: 1px 1px 1px #CCC;
+	box-shadow: 1px 1px 1px #CCC;
+}
+
+.setup_no .txt {
+	padding:5px 10px;
+}
+
+.setup_no .txt img {
+	margin-right:5px;
+}
+
+
+/* ---/ 設定済の場合 /--- */
+.setup_ok {
+	background-color:rgba(255,255,255,0.6);
+	
+	-webkit-box-shadow: 0 2px 2px #999 inset;
+	box-shadow: 0 2px 2px #999 inset;
+	border-bottom:#FFF 1px solid;
+}
+.setup_ok .tl {
+	background-color:#B9D22E;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#B9D22E), to(#77A636));
+	background-image: -webkit-linear-gradient(top, #B9D22E 0%, #77A636 100%);
+	background-image: -moz-linear-gradient(top, #B9D22E 0%, #77A636 100%);
+	background-image: -ms-linear-gradient(top, #B9D22E 0%, #77A636 100%);
+	background-image: linear-gradient(top, #B9D22E 0%, #77A636 100%);
+	
+	color:#FFF;
+	line-height:30px;
+	padding:0 10px;
+	
+	-webkit-box-shadow: 1px 1px 1px #CCC;
+	box-shadow: 1px 1px 1px #CCC;
+}
+
+.setup_ok .txt {
+	padding:5px 10px;
+}
+
+.setup_ok .txt img {
+	margin-right:5px;
+}
+
+
+/* ---/ チェック /--- */
+.setup_list .ico_check {
+	display:inline-block;
+	width:20px;
+}
+
+
+
+/* ------------------------------------------/
+　ご利用者情報
+------------------------------------------ */
+.address_main_check label {
+	background-color:#DDE5DC;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F5F7F5), color-stop(1.0, #DDE5DC));
+	border:#9AA598 1px solid;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+	
+	margin:0;
+	
+	color:#30402E;
+	height:36px;
+}
+
+
+
+/* ---/　メアド4つの場合
+----------------------------------*/
+.user_mail02 {
+	margin:15px 10px 20px;
+}
+
+.user_mail02 .tl {
+	font-size:16px;
+	margin-bottom:5px;
+}
+
+
+.user_mail02 .txt_box {
+	background-color:rgba(255,255,255,0.6);
+	
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-ms-border-radius: 6px;
+	border-radius: 6px;
+	
+	padding:5px;
+	margin-bottom:10px;
+
+}
+
+/* base_list */
+.base_list {
+	margin-top:10px;
+}
+
+.base_list li {
+	background:url(../images/icon_list_b.png) 0 0.2em no-repeat;
+	-webkit-background-size:14px 14px;
+	background-size:14px 14px;
+	padding-left:20px;
+	margin-bottom:5px;
+}
+
+
+
+/* ---/ ラジオボタン /--- */
+.user_mail02 .ui-controlgroup-label {
+	display:block;
+	width:auto;
+}
+
+.user_mail02 .ui-controlgroup-controls {
+	width:100%;
+	margin-left:0;
+}
+
+.user_mail02 .mail_add_btn a {
+	background-color:#DDE5DC;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F5F7F5), color-stop(1.0, #DDE5DC));
+	border:#9AA598 1px solid;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+}
+
+
+/* ---/ リスト /--- */
+.user_mail_list {
+	background-color:#DDE5DC;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #F5F7F5), color-stop(1.0, #DDE5DC));
+	border:#9AA598 1px solid;
+	
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	-ms-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.ico_check {
+	width:20px;
+	display:inline-block;
+}
+
+
+/* メールアドレス未入力 */
+.no_data {
+	color:#666;
+}
+
+
+.registration_btn {
+	background-color:#C1CEBF;
+	-webkit-box-shadow: 0 2px 2px #999 inset;
+	box-shadow: 0 2px 2px #999 inset;
+	padding:15px 10px;
+	border-top:none;
+}
+
+.registration_default_btn {
+	background-color:#C1CEBF;
+	padding:0 10px 15px;
+	border-top:none;
+}
+
+
+/* ------------------------------------------/
+　クレジットカード
+------------------------------------------ */
+.page_description {
+	padding:15px 10px 0;
+}
+
+
+
+
+
+/* ------------------------------------------/
+　お問い合わせ
+------------------------------------------ */
+.cont_contact {
+}
+
+.contact_detail {
+	margin:15px 10px;
+}
+
+input#customer_mail {
+	padding:5px;
+	width:300px;
+}
+
+.cont_contact textarea#contact_text {
+	padding:5px;
+	width:300px;
+	height:200px;
+}
+
+
+.check_btn {
+	background-color:#C1CEBF;
+	-webkit-box-shadow: 0 2px 2px #999 inset;
+	box-shadow: 0 2px 2px #999 inset;
+	padding:15px 10px;
+	border-top:none;
+}
+
+/* オレンジbtnでinput,buttonの場合のテキストの設定 */
+.btn_txt_ow .ui-btn-text {
+	color:#FFF;
+	text-shadow:1px 1px 0 #DA7B18;
+}
+
+.ui-btn-text {
+	z-index:3;
+}
+
+
+/* ------------------------------------------/
+　お問い合わせ確認
+------------------------------------------ */
+.cont_contact_check {
+	padding:15px 10px 0;
+}
+
+
+/* ------------------------------------------/
+　違反報告
+------------------------------------------ */
+
+input#customer_mail {
+	padding:5px;
+	width:300px;
+}
+
+
+.cont_contact textarea#report {
+	padding:5px;
+	width:300px;
+	height:200px;
+}
+
+
+.check_btn {
+	background-color:#C1CEBF;
+	-webkit-box-shadow: 0 2px 2px #999 inset;
+	box-shadow: 0 2px 2px #999 inset;
+	padding:15px 10px;
+	border-top:none;
+}
+
+/* オレンジbtnでinput,buttonの場合のテキストの設定 */
+.btn_txt_ow .ui-btn-text {
+	color:#FFF;
+	text-shadow:1px 1px 0 #DA7B18;
+}
+
+.ui-btn-text {
+	z-index:3;
+}
+
+
+
+

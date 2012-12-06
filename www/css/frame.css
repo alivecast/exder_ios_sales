@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+/* frame.css */
+
+body {
+	background-color:#000;
+}
+
+.frame {
+	width:378px;
+}
+
+
+.frame_img {
+	position:fixed;
+}
+
+#page_addressEdit {
+	width:320px;
+	height:200px;
+	
+	overflow:hidden;
+	
+	background-color:#FC9;
+	margin:118px 25px 0;
+}

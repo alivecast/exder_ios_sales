@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<!-- iPad/iPhone specific css below, add after your main css >
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+		-->
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/barcodescanner.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+
+
+		<script type="text/javascript">
+
+			$(document).ready(function(){
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
+
+			function onDeviceReady() {
+
+				// barcode読み取り
+				window.plugins.barcodeScanner.scan(function(result) {
+					// キャンセル
+					if (result.cancelled) {
+						// test
+						// scannerSuccess('http://exorder.jp/0000130000060000038101'); //TEST用
+						
+                        var src = 'mp3/cancel.mp3';
+				        audio = new Media(src, null, null);
+				        // オーディオ再生
+				        audio.play();
+				        // アラート
+				        var message = 'QRコード読み取りを中止しました';
+						var title = 'キャンセル';
+						var button = 'OK';
+						navigator.notification.alert(
+							message, 
+							function(){
+								// move
+				        		window.location.href = "show_item_index.html";
+							}, 
+							title,
+							button
+						 );
+				        
+                    // 読み取り
+					} else {
+						// 読み取り成功
+						
+						// speed-orderを含むか判定
+						if(result.text.match(/www.speed-order.jp|speed-order.jp|www.exorder.jp|exorder.jp/i)){
+							
+							// ShotOrder
+							scannerSuccess(result.text);
+							
+						} else {
+							
+							// ShotOrder以外
+
+					        // アラート
+					        var message = 'このQRコードは、ExOrderのQRコードではありません。';
+							var title   = 'QRコード相違';
+							var button  = 'OK';
+							navigator.notification.alert(
+								message, 
+								function(){
+									// move
+									var encText = encBase64(result.text);
+									location.href = "show_other.html?text="+encText;
+							        return false;
+								}, 
+								title,
+								button
+							);
+						}
+
+					}
+				}, function(error) {
+					// 読み取り失敗
+					scannerFailure(error);
+				});
+			}
+
+			// Barcode 読み込み成功　-------------------------------------------------------------
+			function scannerSuccess(result) {
+				// test
+				// result = 'http://exorder.jp/2001010000040000028101';
+				
+				// src から Media オブジェクトを作成
+				var src = 'mp3/decide.mp3';
+            	audio = new Media(src, null, null);
+            	// オーディオ再生
+            	audio.play();
+            	
+				// qr_id抽出
+				cutProtocole = result.replace(/http:\/\/|https:\/\//, "");
+				var qr_id = cutProtocole.replace(/www.speed-order.jp\/|speed-order.jp\/|www.exorder.jp\/|exorder.jp\//, "");
+				console.log("scannerSuccess: qr_id: " + qr_id);
+				
+				window.location.href = 'show_item.html?qr_id=' + String(qr_id) + '&latitude=' + null + '&longitude=' + null;
+				
+				// Geolocation -------------------------------------------------------------
+/* DEL
+				var watchId = null;
+				var latitude = 0;
+				var longitude = 0;
+				
+				if ( navigator.geolocation ){
+					console.log('navigator::geolocation');
+					navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+				} else {
+					console.log('Could not navigator::geolocation');
+					window.location.href = 'show_item.html?qr_id=' + String(qr_id) + '&latitude=' + null + '&longitude=' + null;
+				}
+				
+				function onGeoError(error) {
+					console.log('位置情報の取得に失敗しました');
+					window.location.href = 'show_item.html?qr_id=' + String(qr_id) + '&latitude=' + null + '&longitude=' + null;
+				}
+				
+				function onGeoSuccess(position) {
+					var latitude  = position.coords.latitude;
+					var longitude = position.coords.longitude;
+					console.log('緯度: ' + latitude + ', 経度:' + longitude);
+					window.location.href = 'show_item.html?qr_id=' + String(qr_id) + '&order_latitude=' + String(latitude) + '&order_longitude=' + String(longitude);
+				}
+*/
+					
+			}
+
+			// Barcode 読み込み失敗　---------------------------------------------------------------
+			function scannerFailure(message) {
+				// console.log("scannerFailure: message: " + message)
+				// src から Media オブジェクトを作成
+				var src = 'mp3/cancel.mp3';
+		        audio = new Media(src, null, null);
+		        // オーディオ再生
+		        audio.play();
+		        
+				var message = 'もう一度QRコードを撮影してください';
+				var title = 'QRコードの読み取りに失敗しました';
+				var button = 'OK';
+				navigator.notification.alert(
+					message, 
+					function(){
+						
+					}, 
+					title,
+					button
+				 );
+
+			}
+			
+			// alertCallBack -----------------------------------------------------------------------
+			function alertCallBack() {
+				window.location.href = 'barcode.html';
+			}
+
+// }
+		</script>
+	</head>
+
+	<body>
+
+	</body>
+</html>

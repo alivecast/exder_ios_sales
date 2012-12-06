@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<!-- iPad/iPhone specific css below, add after your main css >
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+		-->
+
+		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+
+		<script type="text/javascript">
+		
+			$(document).bind("mobileinit", function() {
+				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
+			
+		$(document).ready(function(){
+			document.addEventListener("deviceready", onDeviceReady, false);
+		});
+
+		function onDeviceReady() {
+
+			if(location.search.length > 1) {
+				var get = new Object();
+				var ret = location.search.substr(1).split("&");
+				for(var i = 0; i < ret.length; i++) {
+					var r = ret[i].split("=");
+					get[r[0]] = r[1];
+				}
+				console.log("text:"+get['text']);
+				showText(get['text']);
+			}
+			
+			function showText(txt){
+				var decTxt = decBase64(txt);
+				$("#htmlData").text(decTxt);
+				console.log("txt:"+decTxt);
+			}
+			
+		}
+
+		</script>
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+
+	</head>
+
+	<body>
+
+		<div data-role="page" data-add-back-btn="false" data-theme="z">
+			<div data-role="header" id="header" data-position="fixed">
+				<h1 id="title">内容</h1>
+				<a data-rel="back" href="#" class="ui-btn-left" data-icon="arrow-l" data-direction="reverse" data-ajax="false">
+					戻る
+				</a>
+			</div>
+
+			<div data-role="content">
+				<p id="htmlData"></p>
+			</div>
+
+			<!-- nav -->
+			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+				<ul>
+					<li class="tab01">
+						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
+					</li>
+					<li class="tab02">
+						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
+					</li>
+					<li class="tab03">
+						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+					</li>
+				</ul>
+				<!-- /dr-footer -->
+			</div>
+		</div>
+	</body>
+</html>
+

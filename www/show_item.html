@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<!-- iPad/iPhone specific css below, add after your main css >
+		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+		-->
+
+		<!--<link rel="stylesheet" href="css/jqmobile-patch.css" type="text/css" />-->
+		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+		
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+
+		<script type="text/javascript">
+			console.log("Start show_item");
+			
+			$(document).bind("mobileinit", function() {
+				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
+
+			$(document).ready(function(){
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
+
+			function onDeviceReady() {
+				
+				// 販売者情報の読み込み
+				var fname = 'setting';
+				getFile(fname,onSettingOK,onSettingNG);
+				
+			}
+
+			function onSettingOK(json) {
+
+				// GETでJSON取得
+				var get = getQuery();
+				console.log("getQuery: " + JSON.stringify(get));
+				
+				// orderファイルに保存
+				fname = 'order';
+				setFile(fname, get);
+
+				console.log("settingData: " + JSON.stringify(json));
+				if (json.uid) {
+
+					if(json.uid == 0){
+						loginErr('まずは、ログイン情報の設定を行ってください');
+					}else{
+						var url = json.http+'company01/send_item_company.php';
+						var hash = {
+							uid: json.uid,
+							act_key: json.act_key,
+							app_ver: json.app_ver,
+							app_code: json.app_code,
+							qr_id: get.qr_id
+						};
+
+						$.ajax({
+							type: "POST",
+							url: url,
+							data:hash,
+							success: function(data){
+								console.log("data::qr_id: " + data.qr_id);
+								if (data.qr_id) {
+									// 商品情報を取得
+									sendData(get);
+								}else{
+									loginErr('ログイン情報に誤りがあります。');
+								}
+							},
+							error: function() {
+								message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
+								title = 'サーバーと通信できませんでした';
+								button = 'OK';
+								navigator.notification.alert(message, errorPostCallBack(), title, button);
+								return false;
+							}
+						});
+					}
+                }else{
+                  	loginErr('まずは、ログイン情報の設定を行ってください');             
+				}
+                return false;
+
+				// 商品情報を取得 -----------------------------------------------------------------------
+				function sendData(get) {
+
+                    var url = json.http+'json/send_item_info.php';
+					var hash = {
+						qr_id: get.qr_id,
+						customer_id: json.customer_id,
+                        customer_key: json.customer_key,
+                        customer_mail_1: json.customer_mail_1
+					};
+
+					console.log("url: " + url);
+					
+					$.ajax({
+						type: "POST",
+						url: url,
+						data:hash,
+						success: function(data){
+							// loading追加処理
+							$('#loading').css('display', 'none');
+							$('#content').css('display', 'block');
+							// 商品詳細
+							// if (data != "" && data != {} && data != null) {
+							if (data.item_name) {
+								// 商品情報をセット
+								setData(data);
+							} else {
+								var message = 'もう一度QRコードを撮影してください';
+								var title   = '商品情報を取得できませんでした';
+								var button  = 'OK';
+								navigator.notification.alert(message, alertCallBack2(), title, button);
+							}
+						},
+						error: function(data) {
+							message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
+							title = 'サーバーと通信できませんでした';
+							button = 'OK';
+							navigator.notification.alert(message, errorPostCallBack(), title, button);
+							return false;
+						}
+					});
+
+				}
+				
+				// errorPostCallBack -----------------------------------------------------------------------
+				function errorPostCallBack() {
+					window.location.href = 'setting.html';
+				}
+				
+				// alertCallBack2 -----------------------------------------------------------------------
+				function alertCallBack2() {
+					window.location.href = 'barcode.html';
+				}
+
+				// 商品情報をセット
+				function setData(params) {
+					console.log("setData : "+params['item_name']);
+					
+					window.localStorage.removeItem('order_params');
+					window.localStorage.setItem('order_params', JSON.stringify(params));
+					// 商品名
+					$("#item_name").text(params['item_name']);
+
+					// 商品画像
+					$("#item_image1").attr("src", params['item_image']);
+
+					// 商品価格
+					item_price = '無料';
+					if (parseInt(params['item_price']) > 0) {
+						var item_price = currency(String(params['item_price'])) + '円';
+					}
+					$("#item_price").text(item_price);
+
+					
+					//　販売期間
+					$("#item_limit_start").text(params['item_limit_start_moji']);
+					$("#item_limit_end").text(params['item_limit_end_moji']);
+					$("#item_stock").text(params['item_stock_moji']);
+
+					// １個の送料
+					var shippingCost = '<a href="website_soryo.html?gr_id='+params['qr_id']+'" deta-transition="slide" data-ajax="false" class="shippingCost_link">';
+					shippingCost += '<dl class="shippingCost"><dt>送料</dt><dd id="order_carriage"><span id="carriage">送料を確認　　';
+					shippingCost += '</span></dd></dl>';
+					shippingCost += '<span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></a>';
+
+					document.getElementById("shippingCost").innerHTML = shippingCost;
+
+					// 送料無料金額
+					// params['non_carriage_price'] = 500; // test
+					if (parseInt(params['non_carriage_price']) > 0) {
+						var non_carriage_price = '<dl class="shippingCost"><dd id="order_carriage"><span>';
+						non_carriage_price = non_carriage_price + currency(params['non_carriage_price']) + '円以上は<br />送料無料</span></dd></dl>';
+						document.getElementById("non_carriage_price").innerHTML = non_carriage_price;
+					}
+
+					// 在庫状況　ボタン表示
+					$('.item_buy_button').css('display', 'none');
+					item_stock_sts = '';
+					if (params['item_is_activate_flg'] == 'disable' || params['item_is_ready_flg'] == 'disable') {
+
+// アクティベート用 AC ITOU
+						$('.item_buy_button_act').css('display', 'block');
+						$('#back1').attr('href', 'barcode.html');
+                        
+					} else if (params.item_stock_sts == 'backstock') {
+						item_stock_sts = '<p class="ico ico_backOrder">入荷待ち</p>';
+						$('.item_buy_button_stop').css('display', 'block');
+                        
+					} else if (params.item_stock_sts == 'discontinued' || params.item_is_stop_flg == 'disable') {
+						item_stock_sts = '<p class="ico ico_discontinued">販売中止</p>';
+						$('.item_buy_button_start').css('display', 'block');
+                        
+					} else if (params.item_stock_sts == 'nostock' || parseInt(params.item_stock_sts) < 1) {
+						item_stock_sts = '<p class="ico ico_backOrder">在庫切れ</p>';
+						$('.item_buy_button_stop').css('display', 'block');
+                        
+					} else if (parseInt(params.item_stock_sts) < 3 && parseInt(params.item_stock_sts) > 0) {
+						item_stock_sts = '<p class="ico ico_onlyRemaining">残りわずか</p>';
+// アクティベート用 AC ITOU
+                        $('.item_buy_button_stop').css('display', 'block');
+                        
+					}else{
+						
+						item_stock_sts = '<p class="ico ico_onlyRemaining">販売中</p>';
+                        $('.item_buy_button_stop').css('display', 'block');
+					}
+					
+					if (item_stock_sts != '') {
+						document.getElementById("item_stock_sts").innerHTML = item_stock_sts;
+					}
+
+
+					// 商品説明
+					var shop_contact = '<div class="txt" style="font-weight:bold;">' + params.item_name + '</div><div class="txt">';
+					shop_contact = shop_contact + params.item_short_desc + '</div>';
+					document.getElementById("shop_contact").innerHTML = shop_contact;
+
+					// 販売社名
+					document.getElementById("company_name").innerText = String(params['company_name']);
+					document.getElementById("company_name_2").innerText = String(params['company_name']);
+					// 営業時間
+					if (params['company_liaise'] && params['company_liaise'] != "") {
+						var company_liaise = '（営業時間: ' + params['company_liaise'] + '）';
+						document.getElementById("company_liaise").innerText = company_liaise;
+					}
+					// 代表者
+					document.getElementById("company_president").innerText = params['company_president'];
+
+					// 住所
+					var zipcode = "";
+					if (params['company_zip'] && params['company_zip'] != "") {
+						zipcode = "〒" + params.company_zip + " ";
+					}
+					document.getElementById("company_address").innerText = String(zipcode + params['company_address1']) + String(params['company_address2']) + String(params['company_address3']);
+					// 電話　特商
+					$("#company_phone2").text(params['company_phone']);
+					// 商品代金以外に必要な金額
+					if (params['company_charge'] && params['company_charge'] != "") {
+						document.getElementById("company_charge").innerText = params['company_charge'];
+					} else {
+						document.getElementById("company_charge").innerText = '商品代金以外の必要料金はありません。';
+					}
+					// 商品引き渡し
+					if (params['company_report_time'] && params['company_report_time'] != "") {
+						document.getElementById("company_report_time").innerText = params['company_report_time'];
+					} else {
+						document.getElementById("company_report_time").innerText = 'ご入金確認後のお届けになります。詳しい到着日はお尋ね下さい。';
+					}
+					// 返品
+					if (params['company_returned'] && params['company_returned'] != "") {
+						document.getElementById("company_returned").innerText = params['company_returned'];
+					} else {
+						document.getElementById("company_returned").innerText = 'お届けした商品がお申し込みと異なっていた場合は交換させて頂きます。';
+					}
+					
+				}
+
+			} // onSettingOk
+
+			
+			function onSettingNG(){
+				loginErr('まずは、ログイン情報の設定を行ってください');
+			}
+			
+			function loginErr(message){
+				title = '設定エラー';
+				button = 'OK';
+				navigator.notification.alert(message, alertCallBack(), title, button);
+				return false;
+			}
+			
+			// alertCallBack -----------------------------------------------------------------------
+			function alertCallBack() {
+				window.location.href = 'setting_init.html';
+			}
+				
+			function changePrice() {
+				var tototo2 = $('#order_amount option:selected').attr('rel') + '円(税込)';
+				$("#total").text(tototo2);
+				// 送料無料の反映
+				var amount = parseInt(document.getElementById('#order_amount').value);
+				var total = parseInt(document.getElementById('#total').value);
+				var neoCarriage = carriage;
+				if (total >= params.non_carriage_price) {
+					neoCarriage = 0;
+					var str = String(neoCarriage);
+					var num = new String(str).replace(/,/g, "");
+					while (num != ( num = num.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
+					if ( num = '0') {
+						num = '無料';
+					} else {
+						num + '円';
+					}
+					document.getElementById('#carriage').innerHTML = String(num);
+				}
+			}
+
+			// 注文へ
+			function order() {
+				console.log("order GO ");
+				// 販売者情報の読み込み
+				var fname = 'setting';
+				getFile(fname,onOrderOK,onSettingNG);
+			}
+			
+			function onOrderOK(json){
+				console.log("onOrderOK");
+				
+				var params = getQuery();
+				params['order_time'] = parseInt(new Date() / 1000);
+				params['order_amount'] = 0;
+				itemText = window.localStorage.getItem('order_params');
+				item = JSON.parse(itemText);
+				params['item_version'] = item['item_version'];
+				params['uid'] = json.uid;
+				// アクティベート用 AC ITOU
+				window.location.href = "act.html";
+				
+				var fname = 'order';
+				setFile(fname, params);
+
+			}
+
+		</script>
+		
+		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+
+	</head>
+
+	<body>
+
+		<div data-role="page" id="page_itemDetail" data-add-back-btn="false" data-theme="z">
+			<div data-role="header" id="header" data-position="fixed">
+				<h1>商品情報</h1>
+				<a href="show_item_index.html" id="back1" class="ui-btn-left" data-icon="arrow-l" data-ajax="false">戻る</a>
+				<a href="website.html?page=tr_company.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">使い方</a>
+			</div>
+			<!-- loading -->
+			<div class="cont_itemDetail" data-role="content" id="loading" style="text-align:center;top:50px">
+				<h1>Please Waiting...</h1>
+				<div >
+					<img src="images/loading_bar_or.gif" />
+				</div>
+			</div>
+			
+			<!-- content -->
+			<div class="cont_itemDetail" data-role="content" id="content" style="display:none;">
+				<div id="item_version_tete" ></div>
+				
+				<!-- 商品情報変更 -->
+				<div id="data_change"></div>
+				<ul class="item_summary" data-role="listview">
+					<!-- 商品名 -->
+					<li class="item_name">
+						<h1 class="name" id="item_name"></h1>
+					</li>
+					<li class="item_img_price">
+						<div class="box2">
+							<!-- 商品画像 -->
+							<div class="box2_01 item_img">
+								<div class="inner" id="item_image">
+									<img src="#" width="150" height="150" alt="商品画像" id="item_image1"/>
+								</div>
+							</div>
+							<div class="box2_02 item_price">
+								<!-- 価格 -->
+								<dl class="price">
+									<dt>
+										価格(税込)
+									</dt>
+									<dd id="item_price"></dd>
+								</dl>
+								<!-- 送料 -->
+								<div id="shippingCost"></div>
+								<!-- 送料無料 -->
+								<div id="non_carriage_price"></div>
+								<!-- 在庫状況 -->
+								<div id="item_stock_sts"></div>
+							</div>
+						</div>
+					</li>
+					
+					<!--<% end %>-->
+				</ul>
+
+				<ul class="item_summary" data-role="listview">
+					<!-- 商品説明 -->
+					<li class="shop_contact" id="shop_contact"></li>
+					<!-- 販売者 -->
+					<!--
+					<li class="shop_neme">
+						<a href="#page_shopProfile" deta-transition="slide"> 販売者：<span id="company_name"></span>
+						<p class="txt">
+							販売者・特定商取引の詳細はこちら
+						</p> </a>
+					</li>
+					-->
+					<!-- 商品説明 -->
+					<li class="shop_contact" id="item_limit">販売期間：<span id="item_limit_start"></span>から<span id="item_limit_end"></span></li>
+					<li class="shop_contact">在庫：<span id="item_stock"></span></li>
+					
+					<li class="item_buy_1btn" id="item_buy_3">
+						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_act" >
+							<p class="txt" style="color:#red;">*上記情報で間違いはないですか？<br />間違いなければ、下記ボタンをタップしてください</p>
+							<a class="btn_next" type="button" onClick="order();">QRコードを有効化する</a>
+						</div>
+						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_stop" >
+							<p class="txt" style="color:#red;">*当QRコードによる販売を一時中止したい場合は、<br />下記ボタンをタップしてください。</p>
+							<a class="btn_next"  type="button" onClick="order();">販売一時中止</a>
+						</div>
+						<div class="item_buy btn_txt_ow item_buy_button item_buy_button_start" >
+							<a class="btn_next" type="button" onClick="order();">販売再開</a>
+						</div>
+					</li>
+					<!--<% end %>-->
+				</ul>
+			</div>
+			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+				<ul>
+					<li class="tab01">
+						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
+					</li>
+					<li class="tab02 current">
+						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
+					</li>
+					<li class="tab03">
+						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+					</li>
+				</ul>
+			</div><!-- /dr-footer -->
+		</div>
+		<!-- /page -->
+
+		<!-- 販売者・特定商取引ここから-->
+		<div id="page_shopProfile" data-role="page" data-add-back-btn="false" data-theme="z">
+			<div data-role="header" id="header" data-position="fixed">
+				<h1>特定商取引法に基づく表示</h1>
+				<a href="#page_itemDetail" class="ui-btn-left" data-icon="arrow-l" data-direction="reverse"> 戻る </a>
+			</div>
+			
+			<!-- コンテンツここから-->
+			<div data-role="content" class="cont_shopProfile">
+				<dl>
+					<dt>
+						販売業者
+					</dt>
+					<dd>
+						<span id="company_name_2"></span>
+						<br/>
+						<span id="company_liaise"></span>
+					</dd>
+					<dt>
+						運営責任者
+					</dt>
+					<dd id="company_president"></dd>
+					<dt>
+						所在地
+					</dt>
+					<dd id="company_address"></dd>
+					<dt>
+						電話番号
+					</dt>
+					<dd id="company_phone2"></dd>
+					<dt>
+						商品代金以外の必要料金
+					</dt>
+					<dd id="company_charge"></dd>
+					<dt>
+						お支払方法
+					</dt>
+					<dd>
+						クレジットカード決済
+					</dd>
+					<dt>
+						お支払い期限
+					</dt>
+					<dd>
+						即時決済
+					</dd>
+					<dt>
+						商品の引き渡し時期
+					</dt>
+					<dd id="company_report_time"></dd>
+					<dt>
+						返品・交換について
+					</dt>
+					<dd id="company_returned"></dd>
+				</dl>
+
+			</div>
+			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+				<ul>
+					<li class="tab01">
+						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
+					</li>
+					<li class="tab02 current">
+						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
+					</li>
+					<li class="tab03">
+						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+					</li>
+				</ul>
+			</div><!-- /dr-footer -->
+		</div>
+
+
+	</body>
+</html>
+

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+<meta charset="utf-8">
+
+<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+
+<script type="text/javascript">
+
+$( document ).bind( "mobileinit", function() {
+	// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+	$.support.cors = true;
+	$.mobile.allowCrossDomainPages = true;
+});
+
+$(document).ready(function(){
+	document.addEventListener("deviceready", onDeviceReady, false);
+});
+
+function onDeviceReady() {
+	var fname = 'passtime';
+	getFile(fname,ckPassTime,goErr);
+}
+
+function goErr() {
+	location.href="passcode_input.html";
+	return false;
+}
+
+function ckPassTime(json) {
+	// パスワードチェック
+	var cktime   = json.pass_time+(60*60);
+	var nowtime  = parseInt( new Date() /1000 );
+	if(cktime < nowtime){
+		location.href="passcode_input.html";
+		return false;
+	}else{
+		// ★メイン処理
+		var fname = 'setting';
+		getFile(fname,setAct,goSET);
+	}
+}
+
+function goSET() {
+	loginErr('アカウント情報が更新されました。再度、ログイン情報を入力してください');
+}
+
+function loginErr(message){
+	title = '設定エラー';
+	button = 'OK';
+	navigator.notification.alert(message, alertCallBack(), title, button);
+	return false;
+}
+
+// alertCallBack -----------------------------------------------------------------------
+function alertCallBack() {
+	location.href="setting_init.html";
+}
+					
+
+// 情報ファイルを読み込み
+function setAct(params){
+
+	// 商品ファイル読み込み
+	var postg = {};
+
+	var fname = 'order';
+	getFile(fname,actMain,cardErrMsg);
+	return false;
+
+	function actMain(order) {
+
+		postg['uid']       = params.uid;
+		postg['act_key']   = params.act_key;
+		postg['app_ver']   = params.app_ver;
+		postg['app_code']  = params.app_code;
+		postg['url']       = params.url;
+		postg['http']      = params.http;
+		postg['https']     = params.https;
+
+		postg['qr_id']             = order.qr_id;
+		postg['order_latitude']    = order.order_latitude;
+		postg['order_longitude']   = order.order_longitude;
+
+		// 処理
+		setOrder(postg);
+		return false;
+	}
+}
+
+// サーバー通信を行い値を設定を行なう
+function setOrder(order){
+
+	var url = order.url+'company01/receive_act.php';
+
+	$.ajax({
+		type: "POST",
+		url: url,
+		data:order,
+		success: function(data){
+			// 戻り値により処理を振り分ける
+			if(data.qr_id){
+				if(data.errmsg){
+console.log("-- エラー--");
+					var msg = {};
+					msg['title'] = data.errtitle;
+					msg['msg']   = data.errmsg;
+					cardErrMsg(msg);
+                	return false;
+				}else{
+console.log("-- 注文完了--");
+					okMsg();
+                	return false;
+				}
+			}else{
+console.log("-- エラー１--");
+				errMsg();
+                return false;
+			}
+		},
+		error: function(data) {
+			console.log("通信エラー発生");
+			errMsg();
+		}
+	});
+
+}
+
+function okMsg() {
+    // オーダーを削除    
+	message = '処理を完了しました。';
+	title = '正常終了';
+	button = 'OK';
+	navigator.notification.alert(message, alertCallBackOk(), title, button);
+
+	// 商品情報クリア
+    fname = 'order';
+    var order = {};
+    order['qr_id'] = "";
+    setFile(fname,order);
+    
+	location.href = 'barcode.html';
+}
+function cardErrMsg(msg) {
+    // カードエラー   
+	button = 'OK';
+	if(msg.title){
+	}else{
+		msg.title = "QRコードエラー";
+	}
+	if(msg.msg){
+	}else{
+		msg.msg = "情報に誤りがあります。もう一度、バーコードを撮り直してください。";
+	}
+	navigator.notification.alert(msg.msg, alertCallBack(), msg.title, button);
+	location.href = 'barcode.html';
+}
+function alertCallBackOk() {
+
+}
+
+function errMsg() {
+	message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
+	title = 'サーバーと通信できませんでした';
+    button = 'OK';
+    navigator.notification.alert(message, alertCallBack(), title, button);
+    location.href = 'show_item_index.html';
+}
+    
+function alertCallBack() {
+//	location.href = 'setting.html';
+}
+
+</script>
+</head>
+<body>
+    <div data-role="page" id="page_itemDetail" data-add-back-btn="false" data-theme="z">
+    <div class="cont_itemDetail" data-role="content" id="loading" style="text-align:center;top:50px">
+        <h1>Please Waiting...</h1>
+        <div >
+            <img src="images/loading_bar_or.gif" />
+        </div>
+    </div>
+    </div>
+</body>
+</html>
