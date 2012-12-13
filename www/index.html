@@ -1,155 +1,259 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title></title>
+<head>
+<title></title>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
-		<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+<meta charset="utf-8">
 
-		<!-- iPad/iPhone specific css below, add after your main css >
-		<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
-		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
-		-->
-         <link rel="stylesheet" href="css/iphone.css" type="text/css" />
-                    
-        <script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
-                    
-        <script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
-        <script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
-        <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+<!-- iPad/iPhone specific css below, add after your main css >
+<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+-->
+<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+<link rel="stylesheet" href="css/iphone.css" type="text/css" />
             
-        <script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
-        
-        
-        <script type="text/javascript">
-            $( document ).bind( "mobileinit", function() {
-                // jQuery Mobile フレームワークの設定変更は、ここで行なってください！
-                $.support.cors = true;
-                $.mobile.allowCrossDomainPages = true;
-            });
-
-			$(document).ready(function(){
-				document.addEventListener("deviceready", onDeviceReady, false);
-			});
-
-			function onDeviceReady() {
-				// Test
-				// var fname = 'setting';
-				// delFile(fname);
-				
-				// URLの取得
-				$.ajax({
-					type: "POST",
-					url: "http://exorder.jp/app/send_init.php",
-					data:"id1=alivecast&id2=sugoi",
-					success: function(rdata){
-                        console.log("正常にテキストを読み込みました。 https: " + rdata.https);
-						onDeviceCheck(rdata);
-					},
-                    error: function(data) {
-                    message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
-                    title = 'サーバーと通信できませんでした';
-                    button = 'OK';
-                    navigator.notification.alert(message, alertCallBack(), title, button);
-                    return false;
-                    }
-				});
-			}
-
-			// alertCallBack -----------------------------------------------------------------------
-			function alertCallBack() {
-                $("#loading").css("display","none");
-                $("#top").css("display","block");
-			}
+<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
             
-			function onDeviceCheck(rdata) {
-				console.log("Setting");
-                
-				var fname = 'setting';
-				getFile(fname,onGetSettingOK,onGetSettingNG);
+<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
+    
+<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+<script src="js/jquery.activity-indicator-1.0.0.js" type="text/javascript"></script>
 
-				function onGetSettingOK(json){
-					console.log("onGetSettingOK");
-                    
-					json['http']  = rdata.http;
-					json['https'] = rdata.https;
-                    json['url']   = rdata.url;
-                    if(json.uid){
-                    	if(json.uid == 0){
-                    		initSettingFile(json);
-                    	}else{
 
-							updateSettingFile(json);
-						}
-                    }else{
-						initSettingFile(json);
-                    }
-                }
-                
-                function onGetSettingNG(){
-                    console.log("onGetSettingNG");
-					initSettingFile(rdata);
-                }
+<script type="text/javascript">
+    $( document ).bind( "mobileinit", function() {
+        // jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+        $.support.cors = true;
+        $.mobile.allowCrossDomainPages = true;
+    });
 
-				function initSettingFile(data){
-					message = 'はじめに、ログイン情報の設定を行ってください。';
-                    title = '重要';
-                    button = 'OK';
-                    navigator.notification.alert(message, alertCallBack(), title, button);
-                    
-					var datalist = {
-						uid: "0",
-						act_key: "0",
-						app_ver: "0100",
-						app_code: "fujichrome_velvia50",
-						url: data.url,
-						http: data.http,
-						https: data.https
-					}
-				    // ファイル処理
-				    var fname = 'setting';
-					setFile(fname, datalist);
-					
-					location.href="setting_init.html";
-					return false;
-                }
+	$(document).ready(function(){
+		document.addEventListener("deviceready", onDeviceReady, false);
+	});
 
-                function updateSettingFile(udata){
-					var datalist = udata;
-				    // ファイル処理
-				    var fname = 'setting';
-					setFile(fname, datalist);
-					
-					location.href="barcode.html";
-					return false;
-                }
-                function alertCallBack(){
-                }
-
+	function onDeviceReady() {
+		// Test
+		// var fname = 'setting';
+		// delFile(fname);
+		
+		// URLの取得
+		$.ajax({
+			type: "POST",
+			url: "http://exorder.jp/app/send_init.php",
+			data:"id1=alivecast&id2=sugoi",
+			success: function(rdata){
+				onDeviceCheck(rdata);
+			},
+			error: function() {
+				onDeviceCheck();
 			}
+		});
+	}
 
-		</script>
-    	<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+	function onDeviceCheck(rdata) {
+		console.log("Setting");
+        
+		var fname = 'setting';
+		getFile(fname,onGetSettingOK,onGetSettingNG);
 
-	</head>
+		function onGetSettingOK(json){
+			console.log("onGetSettingOK");
+            
+            if(rdata && rdata.url){
+				json['http']  = rdata.http;
+				json['https'] = rdata.https;
+	            json['url']   = rdata.url;
+            }else{
+            	if(json.url){
+					// OK
+            	}else{
+            		// 通信エラー
+            		companyNetError();
+            	}
+            }
+            
+            if(json.uid){
+            	if(json.uid == 0){
+            		initSettingFile(json);
+            	}else{
+					// ログインチェック後、アップデート
+					companyLoginCheck(json,updateSettingFile);
+				}
+            }else{
+				initSettingFile(json);
+            }
+        }
+        
+        function onGetSettingNG(){
+            console.log("onGetSettingNG");
+			initSettingFile(rdata);
+        }
+	}
 
-	<body>
-		<div data-role="page" data-add-back-btn="false" data-theme="z">
+	function initSettingFile(data){
+		var fname = 'setting';
+//		delFile(fname);
+		
+		$("#loading").css("display","none");
+		$("#header").css("display","block");
+		$("#mainC").css("display","block");
 
-			<div class="cont_itemDetail" data-role="content" id="loading" style="text-align:center;top:50px">
-				<h1>Please Waiting...</h1>
-				<div >
-					<img src="images/loading_bar_or.gif" />
+		var datalist = {
+			uid: "0",
+			act_key: "0",
+			app_ver: "0100",
+			app_code: "fujichrome_velvia50",
+			url: data.url,
+			http: data.http,
+			https: data.https
+		}
+		
+		// ファイル処理
+		setFile(fname, datalist);
+	}
+
+	function updateSettingFile(udata){
+		var datalist = udata;
+		// ファイル処理
+		var fname = 'setting';
+		setFile(fname, datalist);
+		
+		location.href="barcode.html";
+		return false;
+	}
+
+	function loginMain(){
+		companyGetSetting(savePass);
+		return false;
+	}
+
+	// 新規登録
+	function savePass(json) {
+		console.log("savePass");
+		
+		var setting = json;
+
+		setting['uname']     = $("#uname").val();
+		setting['password']  = $("#password").val();
+
+		// 送信
+		var url = json.https+'company01/receive_act_pw.php';
+
+		var params = setting;
+		var datalist = json;
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			data:params,
+			success: function(data){
+				// 戻り値の保存
+				// ファイル登録
+				if(data.uid && data.uid > 0){
+					//json
+					datalist['uid'] = data.uid;
+					datalist['act_key'] = data.act_key;
+
+console.log("savePassOK app_code:"+datalist.app_code);
+console.log("savePassOK uid:"+datalist.uid);
+
+					updateSettingFile(datalist);
+					
+				}else{
+
+console.log("savePassNG app_code:"+datalist.app_code);
+					
+					message = 'ログインＩＤ('+setting['uname']+')またはパスワードに誤りがあります。';
+					title = '認証エラー';
+					button = 'OK';
+					navigator.notification.alert(message, alertCallBack(), title, button);
+					return false;
+				}
+			},
+			error: function() {
+				companyNetError();
+			}
+		});
+	}
+
+	function alertCallBack(){
+		location.href="index.html";
+	}
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+
+</head>
+
+<body>
+	<div data-role="page" data-add-back-btn="false" data-theme="z">
+		<!-- loading -->
+		<div class="loading" data-role="content" id="loading">
+			<div class="loading_box">
+				<p>しばらくおまちください</p>
+				<div id="loadingImg" class="square"></div>
+				<script>
+					$(function() {
+						$('#loadingImg').activity({
+							segments : 12,
+							width : 6,
+							space : 3,
+							length : 20,
+							color : '#FFFFFF',
+							speed : 1.5,
+							align : 'center',
+							valign : 'center'
+						});
+					});
+				</script>
+			</div>
+		</div>
+
+		<div data-role="header" id="header" style="display:none;" class="loginM">
+			<h1>ログイン</h1>
+			<a href="website.html?page=tr_company.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">使い方</a>
+		</div>
+
+		<div class="cont_passcode_edit" data-role="content" id="mainC"  style="display:none;" class="loginM">
+
+			<div class="page_description">
+				<div class="txt">
+				販売業者ログイン情報を入力してください。
 				</div>
 			</div>
-            
-			<div class="cont_itemDetail" data-role="content" id="top" style="display:none;">
-				<input type="button" class="btn_next" value="再接続" onclick="location.href='index.html'"/>
-			</div>
-            
 
+			<form method="post" action="" id="form_password"  onSubmit="return loginMain();">
+
+				<div data-role="fieldcontain" >
+					<ul class="setup_list" data-role="listview">
+
+						<li>
+							ExOrderのログインＩＤとパスワードを入力してください。
+						</li>
+
+						<li class="passcode">
+							<label for="uname" class="fieldLabel">ログインＩＤ</label>
+							<input type="text" id="uname" name="uname" class="required" value="" />
+						</li>
+
+						<li class="passcode">
+							<label for="password" class="fieldLabel">パスワード</label>
+							<input type="password" id="password" name="password" class="required" value="" />
+						</li>
+
+						<li class="item_buy_1btn btn_txt_ow">
+							<div>
+								<input type="submit" class="btn_next" value="ログイン"/>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</form>
 		</div>
-        
-	</body>
+	</div>
+</body>
 </html>
 

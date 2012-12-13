@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+<meta charset="utf-8">
+
+<!-- iPad/iPhone specific css below, add after your main css >
+<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+-->
+<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+	
+<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+            
+<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
+    
+<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+
+
+<script type="text/javascript">
+    $( document ).bind( "mobileinit", function() {
+        // jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+        $.support.cors = true;
+        $.mobile.allowCrossDomainPages = true;
+    });
+
+	$(document).ready(function(){
+		document.addEventListener("deviceready", onDeviceReady, false);
+	});
+
+	function onDeviceReady() {
+		return false;
+	}
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+
+</head>
+
+<body>
+	<div data-role="page" data-add-back-btn="false" data-theme="z">
+		<!-- reconnection -->
+		<div class="reconnection" data-role="content">
+			<div class="reconnection_box">
+				<p>ただいま通信が繋がりにくくなっております。しばらくお待ちしてから、接続しなおしてください。</p>
+				<div class="btn_outer">
+					<a class="btn_next" href="index.html" data-role="button" data-ajax="false">再接続する</a>
+					<!-- /btn_outer -->
+				</div>
+				<!-- /reconnection_box -->
+			</div>
+			<!-- /dr-content -->
+		</div>
+	</div>
+</body>
+</html>
+

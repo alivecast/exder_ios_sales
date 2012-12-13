@@ -20,30 +20,37 @@
 		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
 
 		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
 
 		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+		<script src="js/jquery.activity-indicator-1.0.0.js" type="text/javascript"></script>
 
 
 
 		<script type="text/javascript">
 		
 					
-            $( document ).bind( "mobileinit", function() {
-                               // jQuery Mobile フレームワークの設定変更は、ここで行なってください！
-                               $.support.cors = true;
-                               $.mobile.allowCrossDomainPages = true;
-            });
+			$( document ).bind( "mobileinit", function() {
+				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
 		
 			$(document).ready(function(){
 				document.addEventListener("deviceready", onDeviceReady, false);
 			});
 
+			// 設定ファイル読み込み
 			function onDeviceReady() {
-				var fname = 'setting';
-				getFile(fname,settingOK,settingNG);
+				companyGetSetting(settingOK);
 			}
 
-			function settingOK(json){
+			// ログインチェック
+			function settingOK(json) {
+				companyLoginCheck(json,loginOK);
+			}
+
+			function loginOK(json){
 								
 				url = json.http+'company01/get_act_index.php';
 				hash = {
@@ -65,7 +72,7 @@
 						console.log('ORDER_INDEX: ' + JSON.stringify(data));
 						show_order_index(data);
 					},
-					error: function(data) {
+					error: function() {
 						message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
 						title = 'サーバーと通信できませんでした';
 						button = 'OK';
@@ -78,11 +85,9 @@
 			// alertCallBack -----------------------------------------------------------------------
 			function errorPostCallBack() {
                 $("#loading").html("<p>しばらくおまちしてから、メニューの「販促物一覧」をタップしなおしてください。</p>");
-//					window.location.href = 'setting_init.html';
 			}
 			
 			function alertCallBack() {
-//				window.location.href = 'setting_init.html';
 			}
 
 			function settingNG(){
@@ -104,54 +109,57 @@
 						var qr_id = orders[i].qr_id;
 						var order_index = '';
 
-						order_index += '<dt></dt><dd><ul data-role="listview"><li>';
-						order_index += '<a href="show_item.html?qr_id=' + qr_id + '" target="_blank"><div class="box2">';
-						if (orders[i].item_is_stop_flg == 'disable') {
+						order_index += '<dt><span class="date">'+orders[i].item_is_activate_date+'</span>有効化</dt>';
+						order_index += '<dd><ul data-role="listview" class="listview"><li>';
+						order_index += '<a href="show_item.html?qr_id=' + qr_id + '" target="_blank">';
+						//if (orders[i].item_is_stop_flg == 'disable') {
 							// 販売一時停止
-							order_index += '<div class="order_defined">';
-						}else{
+						//	order_index += '<div class="order_defined">';
+						//}else{
 							// 有効化済
 							order_index += '<div class="shipment_notification">';
-						}
+						//}
 						order_index += orders[i].shop_name + '</div>';
 						
 						// 商品写真
-						order_index += '<div class="box2_01 item_img"><div class="inner">';
+						order_index += '<div class="box2"><div class="box2_01 item_img"><div class="inner">';
 						order_index += '<img src="' + orders[i].item_image + '" width="60" height="60" />';
 						order_index += '</div></div>';
 						// 商品名
 						order_index += '<div class="box2_02 item_name">';
 						order_index += '<h1 class="name">' + orders[i].item_name + '</h1>';
-						order_index += '<p>価格：' + orders[i].item_price + '円　　在庫数：' + orders[i].item_stock + '個</p>';
+						order_index += '<div class="delivery"><span class="icon">価格</span><span>' + orders[i].item_price + '円</span>';
+						order_index += '<span class="icon">在庫</span><span>' + orders[i].item_stock + '個</span></div>';
 						order_index += '</div>';
 						order_index += '</div></a></li></ul></dd>';
 						
-						if (orders[i].item_is_stop_flg == 'disable') {
-							// 販売一時停止
-							order_indexs_no += order_index;
-							$("#order_indexs_no").html(order_indexs_no);
-						}else{
+						//if (orders[i].item_is_stop_flg == 'disable') {
+						//	// 販売一時停止
+						//	order_indexs_no += order_index;
+						//	$("#order_indexs_no").html(order_indexs_no);
+						//}else{
 							// 有効化済
 							order_indexs_yes += order_index;
 							$("#order_indexs_yes").html(order_indexs_yes);
-						}
+						//}
 
 					}
 					
 				}
 				
-				if(order_indexs_no == ''){
-					$("#order_indexs_no").html('<dt></dt><dd><ul data-role="listview"><li>掲載を一時中止している販促物はありません。</li></ul></dd>');
-				}else{
-					$("#order_indexs_no").html(order_indexs_no);
-				}
+				//if(order_indexs_no == ''){
+				//	$("#order_indexs_no").html('<dt></dt><dd><ul data-role="listview"><li>掲載を一時中止している販促物はありません。</li></ul></dd>');
+				//}else{
+				//	$("#order_indexs_no").html(order_indexs_no);
+				//}
 
 				if(order_indexs_yes == ''){
 					$("#order_indexs_yes").html('<dt></dt><dd><ul data-role="listview"><li>有効化した販促物はありません。</li></ul></dd>');
 				}else{
 					$("#order_indexs_yes").html(order_indexs_yes);
-				}					
+				}
 
+				$('.listview').listview();
 			}
 
 		</script>
@@ -162,32 +170,48 @@
 
 	<body>
 
-		<div data-role="page" data-add-back-btn="false" data-theme="z">
+		<div data-role="page" data-add-back-btn="false" data-theme="z" id="page_orderInfoApp_index" >
 			
 			<div data-role="header" id="header" data-position="fixed">
 				<h1>販促物一覧</h1>
-                <a href="website.html?page=tr_company.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">
-                    使い方</a>
+				<a href="website.html?page=tr_company.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">使い方</a>
 			</div>
+
 			<!-- loading -->
-			<div class="cont_itemDetail" data-role="content" id="loading" style="text-align:center;top:50px">
-				<h1>Please Waiting...</h1>
-				<div >
-					<img src="images/loading_bar_or.gif" />
+			<div class="loading" data-role="content" id="loading">
+				<div class="loading_box">
+					<p>しばらくおまちください</p>
+					<div id="loadingImg" class="square"></div>
+					<script>
+						$(function() {
+							$('#loadingImg').activity({
+								segments : 12,
+								width : 6,
+								space : 3,
+								length : 20,
+								color : '#FFFFFF',
+								speed : 1.5,
+								align : 'center',
+								valign : 'center'
+							});
+						});
+					</script>
 				</div>
 			</div>
+
 			<!-- content -->
 			<div class="cont_orderInfoApp_index" data-role="content" id="content" style="display:none;">
-				<!-- 更新日時 -->
-				<div id="update_time" class="update_time">販売一時中止</div>
-				<!-- 注文一覧 -->
-				<dl class="orderInfoApp_list" id="order_indexs_no">
+<!--
+				<div id="update_time1" class="update_time">販売一時中止</div>
+				<dl class="orderInfoApp_list">
+					<div id="order_indexs_no"></div>
 				</dl>
-
-				<!-- 更新日時 -->
+-->
 				<div id="update_time2" class="update_time">QR有効化　済</div>
-				<!-- 注文一覧 -->
-				<dl class="orderInfoApp_list" id="order_indexs_yes">
+	
+				<dl class="orderInfoApp_list">
+					<!-- 注文一覧 -->
+					<div id="order_indexs_yes"></div>
 				</dl>
 			</div>
 
@@ -200,7 +224,7 @@
 						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
 					</li>
 					<li class="tab03">
-						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+						<a href="logout.html" data-ajax="false"> <span>ログアウト</span> </a>
 					</li>
 				</ul>
 			</div><!-- /dr-footer -->

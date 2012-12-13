@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+<meta charset="utf-8">
+
+<!-- iPad/iPhone specific css below, add after your main css >
+<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+-->
+<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+            
+<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+            
+<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
+    
+<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+<script src="js/jquery.activity-indicator-1.0.0.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+    $( document ).bind( "mobileinit", function() {
+        // jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+        $.support.cors = true;
+        $.mobile.allowCrossDomainPages = true;
+    });
+
+	$(document).ready(function(){
+		document.addEventListener("deviceready", onDeviceReady, false);
+	});
+
+	function onDeviceReady() {
+		var fname = 'setting';
+		delFile(fname);
+
+		// navigator.app.exitApp(); 
+
+		window.location.href="index.html";
+		return false;
+	}
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+
+</head>
+
+<body>
+	<div data-role="page" data-add-back-btn="false" data-theme="z">
+		<!-- loading -->
+		<div class="loading" data-role="content" id="loading">
+			<div class="loading_box">
+				<p>しばらくおまちください</p>
+				<div id="loadingImg" class="square"></div>
+				<script>
+					$(function() {
+						$('#loadingImg').activity({
+							segments : 12,
+							width : 6,
+							space : 3,
+							length : 20,
+							color : '#FFFFFF',
+							speed : 1.5,
+							align : 'center',
+							valign : 'center'
+						});
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

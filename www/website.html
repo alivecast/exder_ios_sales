@@ -39,16 +39,12 @@
                         get[r[0]] = r[1];
                     }
                     console.log("page:"+get['page']);
-//                    console.log("title:"+get['title']);
-//
-//                    if(get['title']){
-//                        $("#title").text(get['title']);
-//                    }
-                    var filename = "http://exorder.jp/app/phonegap/"+get['page'];
+                    var filename = "http://exorder.jp/app/phonegap/company01/"+get['page'];
+                    
+                   	// html取得
+					getIndex(filename);
                 }
 				
-				// html取得
-				getIndex(filename);
 				function getIndex(filename) {
 					xmlhttp = new XMLHttpRequest();
 					if (xmlhttp){
@@ -60,7 +56,7 @@
 				function check(){
 					if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
 						document.getElementById("htmlData").innerHTML = xmlhttp.responseText;
-						console.log(xmlhttp.responseText);
+						//console.log(xmlhttp.responseText);
 					}
 				}
 				
@@ -97,7 +93,7 @@
 						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
 					</li>
 					<li class="tab03">
-						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+						<a href="logout.html" data-ajax="false"> <span>ログアウト</span> </a>
 					</li>
 				</ul>
 				<!-- /dr-footer -->

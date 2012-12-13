@@ -12,8 +12,10 @@
 <script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
 
 <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
 
 <script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+<script src="js/jquery.activity-indicator-1.0.0.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -28,45 +30,9 @@ $(document).ready(function(){
 });
 
 function onDeviceReady() {
-	var fname = 'passtime';
-	getFile(fname,ckPassTime,goErr);
+	companyGetSetting(setAct);
 }
 
-function goErr() {
-	location.href="passcode_input.html";
-	return false;
-}
-
-function ckPassTime(json) {
-	// パスワードチェック
-	var cktime   = json.pass_time+(60*60);
-	var nowtime  = parseInt( new Date() /1000 );
-	if(cktime < nowtime){
-		location.href="passcode_input.html";
-		return false;
-	}else{
-		// ★メイン処理
-		var fname = 'setting';
-		getFile(fname,setAct,goSET);
-	}
-}
-
-function goSET() {
-	loginErr('アカウント情報が更新されました。再度、ログイン情報を入力してください');
-}
-
-function loginErr(message){
-	title = '設定エラー';
-	button = 'OK';
-	navigator.notification.alert(message, alertCallBack(), title, button);
-	return false;
-}
-
-// alertCallBack -----------------------------------------------------------------------
-function alertCallBack() {
-	location.href="setting_init.html";
-}
-					
 
 // 情報ファイルを読み込み
 function setAct(params){
@@ -119,7 +85,7 @@ console.log("-- エラー--");
                 	return false;
 				}else{
 console.log("-- 注文完了--");
-					okMsg();
+					okMsg(data.sts);
                 	return false;
 				}
 			}else{
@@ -136,7 +102,7 @@ console.log("-- エラー１--");
 
 }
 
-function okMsg() {
+function okMsg(sts) {
     // オーダーを削除    
 	message = '処理を完了しました。';
 	title = '正常終了';
@@ -148,8 +114,11 @@ function okMsg() {
     var order = {};
     order['qr_id'] = "";
     setFile(fname,order);
-    
-	location.href = 'barcode.html';
+    if(sts){
+		location.href = 'show_item_index.html';
+    }else{
+    	location.href = 'barcode.html';
+    }
 }
 function cardErrMsg(msg) {
     // カードエラー   
@@ -178,19 +147,33 @@ function errMsg() {
 }
     
 function alertCallBack() {
-//	location.href = 'setting.html';
 }
 
 </script>
 </head>
 <body>
-    <div data-role="page" id="page_itemDetail" data-add-back-btn="false" data-theme="z">
-    <div class="cont_itemDetail" data-role="content" id="loading" style="text-align:center;top:50px">
-        <h1>Please Waiting...</h1>
-        <div >
-            <img src="images/loading_bar_or.gif" />
-        </div>
-    </div>
-    </div>
+	<div data-role="page" id="page_itemDetail" data-add-back-btn="false" data-theme="z">
+		<!-- loading -->
+		<div class="loading" data-role="content" id="loading">
+			<div class="loading_box">
+				<p>しばらくおまちください</p>
+				<div id="loadingImg" class="square"></div>
+				<script>
+					$(function() {
+						$('#loadingImg').activity({
+							segments : 12,
+							width : 6,
+							space : 3,
+							length : 20,
+							color : '#FFFFFF',
+							speed : 1.5,
+							align : 'center',
+							valign : 'center'
+						});
+					});
+				</script>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

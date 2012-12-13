@@ -753,6 +753,8 @@ body {
 }
 
 
+
+/* 設定
 .footer li.tab03 a span {
 	background:url(../images/ico_tab_setup.png) 50% 8px no-repeat;
 	-webkit-background-size:26px 26px;
@@ -765,6 +767,23 @@ body {
 	background-size:26px 26px;
 	color:#F2F2F2;
 }
+*/
+
+
+/* ログアウト */
+.footer li.tab03 a span {
+	background:url(../images/ico_tab_logout.png) 50% 8px no-repeat;
+	-webkit-background-size:22px 26px;
+	background-size:22px 26px;
+}
+
+.footer li.tab03.current a span {
+	background:url(../images/ico_tab_logout_select.png) 50% 8px no-repeat;
+	-webkit-background-size:22px 26px;
+	background-size:22px 26px;
+	color:#F2F2F2;
+}
+
 
 
 .ui-bar-a li a.ui-link:hover span {
@@ -1333,7 +1352,7 @@ button.btn_next {
 
 
 
-/* ---/　
+/* ---/　購入履歴
 ----------------------------------*/
 .orderInfoApp_list {
 }
@@ -1375,13 +1394,59 @@ button.btn_next {
 	overflow:hidden;
 }
 
-
+/* 商品名 */
 .orderInfoApp_list dd .name {
 	overflow:visible;
 	white-space:normal;
 	text-overflow:clip;
+	
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	
+	margin-bottom:5px;
 }
 
+/* お届け先 */
+.orderInfoApp_list dd .delivery {
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	
+	margin-bottom:5px;
+}
+
+.orderInfoApp_list dd .icon {
+	background-color:#C1CEBF;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-ms-border-radius: 6px;
+	border-radius: 6px;
+	padding:3px;	
+	margin-right:5px;
+	color:#333;
+}
+
+/* 価格 */
+.orderInfoApp_list dd .total_price {
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	
+	margin-bottom:5px;
+	
+	/*
+	text-align:right;
+	*/
+}
+
+.orderInfoApp_list dd .total_price span {
+	color:#FF3300;
+}
+
+.orderInfoApp_list dd .total_price span.icon {
+	color:#333;
+}
 
 /* ---/ 販売者からのお知らせ /--- */
 .message_shop {
@@ -1399,7 +1464,6 @@ button.btn_next {
 	border-radius: 3px;
 
 }
-
 
 
 /* ---/ キャンセル /--- */
@@ -1421,7 +1485,16 @@ button.btn_next {
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
 	border-radius: 3px;
+	
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
 }
+
+.order_cancel span {
+	margin-left:10px;
+}
+
 
 /* ---/ 注文確定 /--- */
 .order_defined {
@@ -1442,6 +1515,14 @@ button.btn_next {
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
 	border-radius: 3px;
+	
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+
+.order_defined span {
+	margin-left:10px;
 }
 
 
@@ -1464,8 +1545,15 @@ button.btn_next {
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
 	border-radius: 3px;
+	
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
 }
 
+.shipment_notification span {
+	margin-left:10px;
+}
 
 /* ------------------------------------------/
 　購入商品(個別)
@@ -1831,5 +1919,79 @@ input#customer_mail {
 }
 
 
+/* ------------------------------------------/
+　ローディング
+------------------------------------------ */
+.loading {
+	padding-top:20px;
+	text-align:center;
+}
 
+.loading_box {
+	width: 70%;
+	height: 160px;
+	margin:0 auto;
+	background: rgba(0,0,0,0.2);
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-ms-border-radius: 6px;
+	border-radius: 6px;
+	
+	padding:0 20px;
+}
+
+.loading p {
+	text-shadow: none;
+	padding-top:20px;
+	margin-bottom:10px;
+}
+
+.square {
+	width: 70%;
+	height: 100px;
+	margin:0 auto;
+	
+	padding:0 20px;
+	
+}
+
+
+/* ------------------------------------------/
+　再接続
+------------------------------------------ */
+.reconnection {
+	padding-top:20px;
+}
+
+.reconnection_box {
+	width: 70%;
+	height: 160px;
+	margin:0 auto;
+	background: rgba(0,0,0,0.2);
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-ms-border-radius: 6px;
+	border-radius: 6px;
+	
+	padding:0 20px;
+}
+
+.reconnection_box p {
+	text-shadow: none;
+	padding-top:20px;
+	margin-bottom:10px;
+}
+
+.reconnection_box a.btn_next {
+	color:#FFF;
+	text-shadow:1px 1px 0 #DA7B18;
+	height:44px;
+	width:100%;
+	display:block;
+}
+
+
+.reconnection_box a.btn_next:hover {
+	color:#FFF;
+}
 

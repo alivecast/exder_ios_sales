@@ -19,7 +19,9 @@
 		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+		<script src="js/jquery.activity-indicator-1.0.0.js" type="text/javascript"></script>
 
 		<script type="text/javascript">
 			console.log("Start show_item");
@@ -34,68 +36,32 @@
 				document.addEventListener("deviceready", onDeviceReady, false);
 			});
 
+			// 設定ファイル読み込み
 			function onDeviceReady() {
-				
-				// 販売者情報の読み込み
-				var fname = 'setting';
-				getFile(fname,onSettingOK,onSettingNG);
-				
+				companyGetSetting(SettingOK);
 			}
 
-			function onSettingOK(json) {
+			// ログインチェック
+			function SettingOK(json) {
+				companyLoginCheck(json,LoginOK);
+			}
+
+			function LoginOK(json) {
 
 				// GETでJSON取得
 				var get = getQuery();
 				console.log("getQuery: " + JSON.stringify(get));
 				
-				// orderファイルに保存
 				fname = 'order';
 				setFile(fname, get);
 
-				console.log("settingData: " + JSON.stringify(json));
-				if (json.uid) {
-
-					if(json.uid == 0){
-						loginErr('まずは、ログイン情報の設定を行ってください');
-					}else{
-						var url = json.http+'company01/send_item_company.php';
-						var hash = {
-							uid: json.uid,
-							act_key: json.act_key,
-							app_ver: json.app_ver,
-							app_code: json.app_code,
-							qr_id: get.qr_id
-						};
-
-						$.ajax({
-							type: "POST",
-							url: url,
-							data:hash,
-							success: function(data){
-								console.log("data::qr_id: " + data.qr_id);
-								if (data.qr_id) {
-									// 商品情報を取得
-									sendData(get);
-								}else{
-									loginErr('ログイン情報に誤りがあります。');
-								}
-							},
-							error: function() {
-								message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
-								title = 'サーバーと通信できませんでした';
-								button = 'OK';
-								navigator.notification.alert(message, errorPostCallBack(), title, button);
-								return false;
-							}
-						});
-					}
-                }else{
-                  	loginErr('まずは、ログイン情報の設定を行ってください');             
-				}
-                return false;
+				sendData(get);
+				
+				return false;
 
 				// 商品情報を取得 -----------------------------------------------------------------------
 				function sendData(get) {
+console.log("getFile2: " + JSON.stringify(json));
 
                     var url = json.http+'json/send_item_info.php';
 					var hash = {
@@ -128,11 +94,7 @@
 							}
 						},
 						error: function(data) {
-							message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
-							title = 'サーバーと通信できませんでした';
-							button = 'OK';
-							navigator.notification.alert(message, errorPostCallBack(), title, button);
-							return false;
+							companyNetError();
 						}
 					});
 
@@ -140,7 +102,7 @@
 				
 				// errorPostCallBack -----------------------------------------------------------------------
 				function errorPostCallBack() {
-					window.location.href = 'setting.html';
+					window.location.href = 'index.html';
 				}
 				
 				// alertCallBack2 -----------------------------------------------------------------------
@@ -174,7 +136,7 @@
 					$("#item_stock").text(params['item_stock_moji']);
 
 					// １個の送料
-					var shippingCost = '<a href="website_soryo.html?gr_id='+params['qr_id']+'" deta-transition="slide" data-ajax="false" class="shippingCost_link">';
+					var shippingCost = '<a href="website_soryo.html?qr_id='+params['qr_id']+'" deta-transition="slide" data-ajax="false" class="shippingCost_link">';
 					shippingCost += '<dl class="shippingCost"><dt>送料</dt><dd id="order_carriage"><span id="carriage">送料を確認　　';
 					shippingCost += '</span></dd></dl>';
 					shippingCost += '<span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span></a>';
@@ -200,25 +162,25 @@
                         
 					} else if (params.item_stock_sts == 'backstock') {
 						item_stock_sts = '<p class="ico ico_backOrder">入荷待ち</p>';
-						$('.item_buy_button_stop').css('display', 'block');
+					//	$('.item_buy_button_stop').css('display', 'block');
                         
 					} else if (params.item_stock_sts == 'discontinued' || params.item_is_stop_flg == 'disable') {
 						item_stock_sts = '<p class="ico ico_discontinued">販売中止</p>';
-						$('.item_buy_button_start').css('display', 'block');
+					//	$('.item_buy_button_start').css('display', 'block');
                         
 					} else if (params.item_stock_sts == 'nostock' || parseInt(params.item_stock_sts) < 1) {
 						item_stock_sts = '<p class="ico ico_backOrder">在庫切れ</p>';
-						$('.item_buy_button_stop').css('display', 'block');
+					//	$('.item_buy_button_stop').css('display', 'block');
                         
 					} else if (parseInt(params.item_stock_sts) < 3 && parseInt(params.item_stock_sts) > 0) {
 						item_stock_sts = '<p class="ico ico_onlyRemaining">残りわずか</p>';
 // アクティベート用 AC ITOU
-                        $('.item_buy_button_stop').css('display', 'block');
+                    //    $('.item_buy_button_stop').css('display', 'block');
                         
 					}else{
 						
 						item_stock_sts = '<p class="ico ico_onlyRemaining">販売中</p>';
-                        $('.item_buy_button_stop').css('display', 'block');
+                    //    $('.item_buy_button_stop').css('display', 'block');
 					}
 					
 					if (item_stock_sts != '') {
@@ -268,6 +230,8 @@
 					} else {
 						document.getElementById("company_returned").innerText = 'お届けした商品がお申し込みと異なっていた場合は交換させて頂きます。';
 					}
+
+					$('.item_summary').listview();
 					
 				}
 
@@ -275,7 +239,7 @@
 
 			
 			function onSettingNG(){
-				loginErr('まずは、ログイン情報の設定を行ってください');
+				loginErr('ログインＩＤまたはパスワードが変更されました。再度、ログインを行ってください');
 			}
 			
 			function loginErr(message){
@@ -287,7 +251,7 @@
 			
 			// alertCallBack -----------------------------------------------------------------------
 			function alertCallBack() {
-				window.location.href = 'setting_init.html';
+				window.location.href = 'index.html';
 			}
 				
 			function changePrice() {
@@ -351,13 +315,29 @@
 				<a href="show_item_index.html" id="back1" class="ui-btn-left" data-icon="arrow-l" data-ajax="false">戻る</a>
 				<a href="website.html?page=tr_company.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">使い方</a>
 			</div>
+
 			<!-- loading -->
-			<div class="cont_itemDetail" data-role="content" id="loading" style="text-align:center;top:50px">
-				<h1>Please Waiting...</h1>
-				<div >
-					<img src="images/loading_bar_or.gif" />
+			<div class="loading" data-role="content" id="loading">
+				<div class="loading_box">
+					<p>しばらくおまちください</p>
+					<div id="loadingImg" class="square"></div>
+					<script>
+						$(function() {
+							$('#loadingImg').activity({
+								segments : 12,
+								width : 6,
+								space : 3,
+								length : 20,
+								color : '#FFFFFF',
+								speed : 1.5,
+								align : 'center',
+								valign : 'center'
+							});
+						});
+					</script>
 				</div>
 			</div>
+
 			
 			<!-- content -->
 			<div class="cont_itemDetail" data-role="content" id="content" style="display:none;">
@@ -440,7 +420,7 @@
 						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
 					</li>
 					<li class="tab03">
-						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+						<a href="logout.html" data-ajax="false"> <span>ログアウト</span> </a>
 					</li>
 				</ul>
 			</div><!-- /dr-footer -->
@@ -513,7 +493,7 @@
 						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
 					</li>
 					<li class="tab03">
-						<a href="setting_init.html" data-ajax="false"> <span>再ログイン</span> </a>
+						<a href="logout.html" data-ajax="false"> <span>ログアウト</span> </a>
 					</li>
 				</ul>
 			</div><!-- /dr-footer -->
