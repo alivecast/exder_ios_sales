@@ -163,20 +163,20 @@ console.log("getFile2: " + JSON.stringify(json));
 					if (params['item_is_activate_flg'] == 'disable') {
 						// 入荷待ち
 						if (params.item_stock_sts == 'backstock') {
-							no_act = '【在庫なし】</div><div class="tl">※在庫を入力してから、QRコードを読み取って、有効化してください';
+							no_act = '【在庫なし】</div><div class="tl">※在庫を入力してから、<br />QRコードを読み取って、有効化してください';
 						// 販売中止
 						} else if (params.item_is_stop_flg == 'disable') {
-							no_act = '【販売中止】</div><div class="tl">※販売を再開してから、QRコードを読み取って、有効化してください';
+							no_act = '【販売中止】</div><div class="tl">※販売を再開してから、<br />QRコードを読み取って、有効化してください';
 						// 販売終了
 						} else if (params.item_stock_sts == 'discontinued') {
-							no_act = '【販売終了】</div><div class="tl">※販売期間を正しく設定してから、QRコードを読み取って、有効化してください';
+							no_act = '【販売終了】</div><div class="tl">※販売期間を正しく設定してから、<br />QRコードを読み取って、有効化してください';
 						// 在庫切れ
 						} else if (params.item_stock_sts == 'nostock' || parseInt(params.item_stock_sts) < 1) {
-							no_act = '【在庫なし】</div><div class="tl">※在庫を入力してから、QRコードを読み取って、有効化してください';
+							no_act = '【在庫なし】</div><div class="tl">※在庫を入力してから、<br />QRコードを読み取って、有効化してください';
 						}
 
 						if(no_act){
-							var data_change = '<div class="data_change"><div class="tl">';
+							var data_change = '<div class="order_defined"><div class="tl">';
 							data_change += no_act;
 							data_change += '</div></div>';
 							$("#data_change").html(data_change);
@@ -190,8 +190,8 @@ console.log("getFile2: " + JSON.stringify(json));
 						}
 
 					}else{
-						var data_change = '<div class="order_defined"><div class="tl">';
-						data_change += '【有効化済】すでに有効化しております';
+						var data_change = '<div class="shipment_notification"><div class="tl">';
+						data_change += '【有効化済】</div><div class="tl">すでに有効化しております';
 						data_change += '</div></div>';
 						$("#data_change").html(data_change);
 					}
@@ -464,7 +464,7 @@ console.log("getFile2: " + JSON.stringify(json));
 					<li class="tab01">
 						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
 					</li>
-					<li class="tab02 current">
+					<li class="tab02">
 						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
 					</li>
 					<li class="tab03">
@@ -476,13 +476,12 @@ console.log("getFile2: " + JSON.stringify(json));
 		<!-- /page -->
 
 		<!-- 販売者・特定商取引ここから-->
+<!--
 		<div id="page_shopProfile" data-role="page" data-add-back-btn="false" data-theme="z">
 			<div data-role="header" id="header" data-position="fixed">
 				<h1>特定商取引法に基づく表示</h1>
 				<a href="#page_itemDetail" class="ui-btn-left" data-icon="arrow-l" data-direction="reverse"> 戻る </a>
 			</div>
-			
-			<!-- コンテンツここから-->
 			<div data-role="content" class="cont_shopProfile">
 				<dl>
 					<dt>
@@ -544,9 +543,9 @@ console.log("getFile2: " + JSON.stringify(json));
 						<a href="logout.html" data-ajax="false"> <span>ログアウト</span> </a>
 					</li>
 				</ul>
-			</div><!-- /dr-footer -->
+			</div>
 		</div>
-
+-->
 
 	</body>
 </html>
