@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+
+		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.activity-indicator-1.0.0.js"></script>
+
+		<script type="text/javascript">
+		
+					
+			$( document ).bind( "mobileinit", function() {
+				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
+		
+			$(document).ready(function(){
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
+
+			// 設定ファイル読み込み
+			function onDeviceReady() {
+				companyGetSetting(settingOK);
+			}
+
+			// ログインチェック
+			function settingOK(json) {
+				companyLoginCheck(json,loginOK);
+			}
+
+			function loginOK(json){
+								
+				url = json.http+'company01/get_act_index.php';
+				hash = {
+					uid: json.uid,
+					act_key: json.act_key,
+					app_ver: json.app_ver,
+					app_code: json.app_code
+				};
+
+				$.ajax({
+					type: "POST",
+					url: url,
+					data:hash,
+					success: function(data){
+						// loading追加処理
+						$('#loading').css('display', 'none');
+						$('#content').css('display', 'block');
+						// 購入一覧表示
+						console.log('ORDER_INDEX: ' + JSON.stringify(data));
+						show_order_index(data);
+					},
+					error: function() {
+						message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
+						title = 'サーバーと通信できませんでした';
+						button = 'OK';
+						navigator.notification.alert(message, errorPostCallBack(), title, button);
+						return false;
+					}
+				});
+			}
+			
+			// alertCallBack -----------------------------------------------------------------------
+			function errorPostCallBack() {
+                $("#loading").html("<p>しばらくおまちしてから、メニューの「販促物一覧」をタップしなおしてください。</p>");
+			}
+			
+			function alertCallBack() {
+			}
+
+			function settingNG(){
+				window.location.href = 'index.html';
+			}
+			
+			// 注文詳細
+			function show_item_index(index){
+				var orders = JSON.parse(getLocalStorage('show_order_index'));
+				setLocalStorage('qr_id', orders[parseInt(index)].qr_id);
+				setLocalStorage('qr_id_noact', orders[parseInt(index)].qr_id);
+				window.location.href = 'show_item.html';
+			}
+		
+			// 注文一覧HTML
+			function show_order_index(orders) {
+				
+				// 購入商品一覧
+				var length = orders.length;
+				var order_indexs_yes = '';
+				var order_indexs_no  = '';
+				
+				if (length > 0) {
+					
+					for (var i = 0; i < length; i++) {
+						console.log('order: ' + JSON.stringify(orders[i].item_name));
+						var qr_id = orders[i].qr_id;
+						var order_index = '';
+
+						if (orders[i].item_is_activate_flg == 'disable') {
+							order_index += '<dt>有効化 待ち</dt>';
+						}else{
+							order_index += '<dt><span class="date">'+orders[i].item_is_activate_date+'</span>有効化済</dt>';
+						}
+						order_index += '<dd><ul data-role="listview" class="listview"><li>';
+						order_index += '<a href="show_item.html?qr_id=' + String(orders[i].qr_id) + '&qr_id_noact=' + String(orders[i].qr_id) + '">';
+						if (orders[i].item_is_activate_flg == 'disable') {
+							// 有効化待ち
+							order_index += '<div class="order_cancel">';
+						}else{
+							// 有効化済
+							order_index += '<div class="shipment_notification">';
+						}
+						order_index += orders[i].shop_name + '</div>';
+						
+						// 商品写真
+						order_index += '<div class="box2"><div class="box2_01 item_img"><div class="inner">';
+						order_index += '<img src="' + orders[i].item_image + '" width="60" height="60" />';
+						order_index += '</div></div>';
+						// 商品名
+						order_index += '<div class="box2_02 item_name">';
+						order_index += '<h1 class="name">' + orders[i].item_name + '</h1>';
+						order_index += '<div class="delivery"><span class="icon">価格</span><span>' + currency(orders[i].item_price) + '円</span>';
+						order_index += '<span class="icon">在庫</span><span>' + orders[i].item_stock + '個</span></div>';
+						order_index += '</div>';
+						order_index += '</div></a></li></ul></dd>';
+						
+						if (orders[i].item_is_activate_flg == 'disable') {
+							// 有効化待ち
+							order_indexs_no += order_index;
+//							$("#order_indexs_no").html(order_indexs_no);
+						}else{
+							// 有効化済
+							order_indexs_yes += order_index;
+//							$("#order_indexs_yes").html(order_indexs_yes);
+						}
+					}
+				}
+				
+				if(order_indexs_yes == '' && order_indexs_no == ''){
+					$("#content").html('<p class="qr_activation_txt">販促物(QRコード)が作成されておりません。</p>');
+				}else{
+					if(order_indexs_no == ''){
+						$("#order_indexs_text_no").html('有効化待ちの販促物はありません');
+					}else{
+						$("#order_indexs_no").html(order_indexs_no);
+					}
+
+					if(order_indexs_yes == ''){
+						$("#order_indexs_text_yes").html('有効化済みの販促物はありません');
+					}else{
+						$("#order_indexs_yes").html(order_indexs_yes);
+					}
+				}
+				$('.listview').listview();
+			}
+
+		</script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+		
+	</head>
+
+	<body>
+
+		<div data-role="page" data-add-back-btn="false" data-theme="z" id="page_orderInfoApp_index" >
+			
+			<div data-role="header" id="header" data-position="fixed">
+				<h1>販促物一覧</h1>
+				<a href="website.html?page=tr_company.html" class="ui-btn-right" data-icon="info" data-direction="reverse" data-ajax="false">使い方</a>
+			</div>
+
+			<!-- loading -->
+			<div class="loading" data-role="content" id="loading">
+				<div class="loading_box">
+					<p>しばらくおまちください</p>
+					<div id="loadingImg" class="square"></div>
+					<script>
+						$(function() {
+							$('#loadingImg').activity({
+								segments : 12,
+								width : 6,
+								space : 3,
+								length : 20,
+								color : '#FFFFFF',
+								speed : 1.5,
+								align : 'center',
+								valign : 'center'
+							});
+						});
+					</script>
+				</div>
+			</div>
+
+			<!-- content -->
+			<div class="cont_orderInfoApp_index" data-role="content" id="content" style="display:none;">
+
+				<div id="update_time2" class="qr_activation_tl01">QR有効化　待ち</div>
+				<p class="qr_activation_txt" id="order_indexs_text_no">下記の商品は、このアプリでQRコードを読み取ると販売可能になります。</p>
+				<dl class="orderInfoApp_list" id="order_indexs_no"></dl>
+
+				<div id="update_time2" class="qr_activation_tl02">QR有効化　済</div>
+				<p class="qr_activation_txt" id="order_indexs_text_yes">下記の商品は、販売可能です。</p>
+				<dl class="orderInfoApp_list" id="order_indexs_yes"></dl>
+
+			</div>
+
+			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">
+				<ul>
+					<li class="tab01 current">
+						<a href="show_item_index.html" data-ajax="false"> <span>販促物一覧</span> </a>
+					</li>
+					<li class="tab02">
+						<a href="barcode.html" data-ajax="false"> <span>読み取り</span> </a>
+					</li>
+					<li class="tab03">
+						<a href="logout.html" data-ajax="false"> <span>ログアウト</span> </a>
+					</li>
+				</ul>
+			</div><!-- /dr-footer -->
+		</div>
+
+	</body>
+</html>
+
