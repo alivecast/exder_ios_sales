@@ -1378,6 +1378,10 @@ button.btn_next {
 
 .orderInfoApp_list dt span {
 	margin-right:5px;
+	
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
 }
 
 
@@ -1414,6 +1418,8 @@ button.btn_next {
 	text-overflow:ellipsis;
 	
 	margin-bottom:5px;
+	
+	font-size:12px;
 }
 
 .orderInfoApp_list dd .icon {
@@ -1422,9 +1428,12 @@ button.btn_next {
 	-moz-border-radius: 6px;
 	-ms-border-radius: 6px;
 	border-radius: 6px;
-	padding:3px;	
+	padding:1px 3px;	
 	margin-right:5px;
 	color:#333;
+	
+	font-size:10px;
+	display:inline-block;
 }
 
 /* 価格 */
@@ -1434,6 +1443,8 @@ button.btn_next {
 	text-overflow:ellipsis;
 	
 	margin-bottom:5px;
+	
+	font-size:12px;
 	
 	/*
 	text-align:right;
@@ -1446,6 +1457,10 @@ button.btn_next {
 
 .orderInfoApp_list dd .total_price span.icon {
 	color:#333;
+}
+
+.orderInfoApp_list dd .total_price span:nth-child(3) {
+	margin-left:20px;
 }
 
 /* ---/ 販売者からのお知らせ /--- */
@@ -1950,9 +1965,14 @@ input#customer_mail {
 	width: 70%;
 	height: 100px;
 	margin:0 auto;
-	
 	padding:0 20px;
-	
+}
+
+.square_droid {
+	width: 70%;
+	height: 100px;
+	margin:0 auto;
+	padding:48px 50%;
 }
 
 
@@ -1994,4 +2014,81 @@ input#customer_mail {
 .reconnection_box a.btn_next:hover {
 	color:#FFF;
 }
+
+
+/* ------------------------------------------/
+　【販売者】販促物一覧
+------------------------------------------ */
+/* QR有効化　待ち tl */
+.qr_activation_tl01 {
+	/*
+	background-color:#E5EBE3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#DADADE), color-stop(90%, #E4E4E7), to(#E5E5E8));
+	background-image: -webkit-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -moz-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -ms-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	*/
+	
+	border-top:#B2B2BB 1px solid;
+	border-bottom:#B2B2BB 1px solid;
+	
+	padding:5px 10px;
+	margin-bottom:1px;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+	
+	text-align:center;
+	font-size:16px;
+	
+	background-color:#F3BB02;
+	background-image:none;
+	color:#FFF;
+	
+	text-shadow: -1px -1px 1px rgba(0,0,0,0.1);
+}
+
+/* QR有効化　済 tl */
+.qr_activation_tl02 {	
+	/*
+	background-color:#E5EBE3;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#DADADE), color-stop(90%, #E4E4E7), to(#E5E5E8));
+	background-image: -webkit-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -moz-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: -ms-linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	background-image: linear-gradient(top, #DADADE 0%, #E4E4E7 90%, #E5E5E8 100%);
+	*/
+	
+	border-top:#B2B2BB 1px solid;
+	border-bottom:#B2B2BB 1px solid;
+	
+	padding:5px 10px;
+	margin-bottom:1px;
+	
+	-webkit-box-shadow: 0 1px 1px #FFF inset;
+	box-shadow: 0 1px 1px #FFF inset;
+	
+	text-align:center;
+	font-size:16px;
+	
+	background-color:#06AA8F;
+	background-image:none;
+	color:#FFF;
+	
+	text-shadow: -1px -1px 1px rgba(0,0,0,0.1);
+}
+
+
+.qr_activation_txt {
+	padding:10px;
+}
+
+
+
+
+
+
+
+
 

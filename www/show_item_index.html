@@ -109,16 +109,20 @@
 						var qr_id = orders[i].qr_id;
 						var order_index = '';
 
-						order_index += '<dt><span class="date">'+orders[i].item_is_activate_date+'</span>有効化</dt>';
+						if (orders[i].item_is_activate_flg == 'disable') {
+							order_index += '<dt>有効化 待ち</dt>';
+						}else{
+							order_index += '<dt><span class="date">'+orders[i].item_is_activate_date+'</span>有効化済</dt>';
+						}
 						order_index += '<dd><ul data-role="listview" class="listview"><li>';
-						order_index += '<a href="show_item.html?qr_id=' + qr_id + '" target="_blank">';
-						//if (orders[i].item_is_stop_flg == 'disable') {
-							// 販売一時停止
-						//	order_index += '<div class="order_defined">';
-						//}else{
+						order_index += '<a href="show_item.html?qr_id=' + qr_id + '&qr_id_noact=' + qr_id + '" target="_blank">';
+						if (orders[i].item_is_activate_flg == 'disable') {
+							// 有効化待ち
+							order_index += '<div class="order_cancel">';
+						}else{
 							// 有効化済
 							order_index += '<div class="shipment_notification">';
-						//}
+						}
 						order_index += orders[i].shop_name + '</div>';
 						
 						// 商品写真
@@ -128,37 +132,38 @@
 						// 商品名
 						order_index += '<div class="box2_02 item_name">';
 						order_index += '<h1 class="name">' + orders[i].item_name + '</h1>';
-						order_index += '<div class="delivery"><span class="icon">価格</span><span>' + orders[i].item_price + '円</span>';
+						order_index += '<div class="delivery"><span class="icon">価格</span><span>' + currency(orders[i].item_price) + '円</span>';
 						order_index += '<span class="icon">在庫</span><span>' + orders[i].item_stock + '個</span></div>';
 						order_index += '</div>';
 						order_index += '</div></a></li></ul></dd>';
 						
-						//if (orders[i].item_is_stop_flg == 'disable') {
-						//	// 販売一時停止
-						//	order_indexs_no += order_index;
-						//	$("#order_indexs_no").html(order_indexs_no);
-						//}else{
+						if (orders[i].item_is_activate_flg == 'disable') {
+							// 有効化待ち
+							order_indexs_no += order_index;
+//							$("#order_indexs_no").html(order_indexs_no);
+						}else{
 							// 有効化済
 							order_indexs_yes += order_index;
-							$("#order_indexs_yes").html(order_indexs_yes);
-						//}
-
+//							$("#order_indexs_yes").html(order_indexs_yes);
+						}
 					}
-					
 				}
 				
-				//if(order_indexs_no == ''){
-				//	$("#order_indexs_no").html('<dt></dt><dd><ul data-role="listview"><li>掲載を一時中止している販促物はありません。</li></ul></dd>');
-				//}else{
-				//	$("#order_indexs_no").html(order_indexs_no);
-				//}
-
-				if(order_indexs_yes == ''){
-					$("#order_indexs_yes").html('<dt></dt><dd><ul data-role="listview"><li>有効化した販促物はありません。</li></ul></dd>');
+				if(order_indexs_yes == '' && order_indexs_no == ''){
+					$("#content").html('<p class="qr_activation_txt">販促物(QRコード)が作成されておりません。</p>');
 				}else{
-					$("#order_indexs_yes").html(order_indexs_yes);
-				}
+					if(order_indexs_no == ''){
+						$("#order_indexs_text_no").html('有効化待ちの販促物はありません');
+					}else{
+						$("#order_indexs_no").html(order_indexs_no);
+					}
 
+					if(order_indexs_yes == ''){
+						$("#order_indexs_text_yes").html('有効化済みの販促物はありません');
+					}else{
+						$("#order_indexs_yes").html(order_indexs_yes);
+					}
+				}
 				$('.listview').listview();
 			}
 
@@ -201,18 +206,15 @@
 
 			<!-- content -->
 			<div class="cont_orderInfoApp_index" data-role="content" id="content" style="display:none;">
-<!--
-				<div id="update_time1" class="update_time">販売一時中止</div>
-				<dl class="orderInfoApp_list">
-					<div id="order_indexs_no"></div>
-				</dl>
--->
-				<div id="update_time2" class="update_time">QR有効化　済</div>
-	
-				<dl class="orderInfoApp_list">
-					<!-- 注文一覧 -->
-					<div id="order_indexs_yes"></div>
-				</dl>
+
+				<div id="update_time2" class="qr_activation_tl01">QR有効化　待ち</div>
+				<p class="qr_activation_txt" id="order_indexs_text_no">下記の商品は、このアプリでQRコードを読み取ると販売可能になります。</p>
+				<dl class="orderInfoApp_list" id="order_indexs_no"></dl>
+
+				<div id="update_time2" class="qr_activation_tl02">QR有効化　済</div>
+				<p class="qr_activation_txt" id="order_indexs_text_yes">下記の商品は、販売可能です。</p>
+				<dl class="orderInfoApp_list" id="order_indexs_yes"></dl>
+
 			</div>
 
 			<div class="footer" data-role="footer" data-position="fixed" data-id="tabber">

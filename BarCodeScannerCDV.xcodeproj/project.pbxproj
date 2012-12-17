@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C046615163E37F200349A2A /* iphone.css in Resources */ = {isa = PBXBuildFile; fileRef = 0C046614163E37F200349A2A /* iphone.css */; };
 		0C41C868165DBCE60090CFC4 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0C41C86A165DBCE60090CFC4 /* MainViewController.xib */; };
+		0C64F603167F5F3C0072124E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C41C871165DC0950090CFC4 /* Default.png */; };
 		0C7BE5581670507C00F76E07 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CAB13B51648C2BE00861CDB /* icon57.png */; };
 		0C7BE5591670508100F76E07 /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CAB13B71648C2C300861CDB /* icon114.png */; };
 		0C7BE55B167050DA00F76E07 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C1BF2341648AFE6002D2A62 /* Default.png */; };
@@ -16,7 +17,6 @@
 		0C7BE55D167050EF00F76E07 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C41C870165DC0950090CFC4 /* Default-568h@2x.png */; };
 		0C7BE563167052F100F76E07 /* logo_320.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7BE562167052F100F76E07 /* logo_320.png */; };
 		0CF23525164B724100628108 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C1BF2361648AFF1002D2A62 /* Default-568h@2x.png */; };
-		0CFD071D1676E6A1006DA29C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C41C871165DC0950090CFC4 /* Default.png */; };
 		0CFD071E1676E6A8006DA29C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C1BF2381648AFFE002D2A62 /* Default@2x.png */; };
 		48967ABB15084B2800F4D66A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48967ABA15084B2800F4D66A /* Foundation.framework */; };
 		48967ABD15084B2800F4D66A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48967ABC15084B2800F4D66A /* UIKit.framework */; };
@@ -365,8 +365,8 @@
 				0C7BE55C167050E100F76E07 /* Default@2x.png in Resources */,
 				0C7BE55D167050EF00F76E07 /* Default-568h@2x.png in Resources */,
 				0C7BE563167052F100F76E07 /* logo_320.png in Resources */,
-				0CFD071D1676E6A1006DA29C /* Default.png in Resources */,
 				0CFD071E1676E6A8006DA29C /* Default@2x.png in Resources */,
+				0C64F603167F5F3C0072124E /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,8 +463,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "F98C0987-9292-49BC-8992-C7B4399FBB28";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F98C0987-9292-49BC-8992-C7B4399FBB28";
+				PROVISIONING_PROFILE = "5BB48749-8C57-4497-9103-09CE189E5E97";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BB48749-8C57-4497-9103-09CE189E5E97";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -483,8 +483,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "F98C0987-9292-49BC-8992-C7B4399FBB28";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F98C0987-9292-49BC-8992-C7B4399FBB28";
+				PROVISIONING_PROFILE = "5BB48749-8C57-4497-9103-09CE189E5E97";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BB48749-8C57-4497-9103-09CE189E5E97";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -519,8 +519,8 @@
 					/usr/lib/libSystem.B.dylib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F98C0987-9292-49BC-8992-C7B4399FBB28";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F98C0987-9292-49BC-8992-C7B4399FBB28";
+				PROVISIONING_PROFILE = "5BB48749-8C57-4497-9103-09CE189E5E97";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BB48749-8C57-4497-9103-09CE189E5E97";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -555,8 +555,8 @@
 					/usr/lib/libSystem.B.dylib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F98C0987-9292-49BC-8992-C7B4399FBB28";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F98C0987-9292-49BC-8992-C7B4399FBB28";
+				PROVISIONING_PROFILE = "5BB48749-8C57-4497-9103-09CE189E5E97";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BB48749-8C57-4497-9103-09CE189E5E97";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
