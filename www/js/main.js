@@ -119,6 +119,7 @@ function setFile(fname, jsonObj, okfn, errfn) {
 			}, setNG);
 		}, setNG);
 	}
+
 	function setNG(error) {
 		console.log("ファイルを書き込めませんでした。");
 		callback = $FN(errfn);
@@ -155,11 +156,13 @@ function getFile(fname, okfn, errfn) {
 			}, noFile)
 		}, noFile);
 	}
+
 	function noFile(error) {
 		console.log("ファイルを読み込めませんでした。");
 		callback = $FN(errfn);
 		return callback()
 	}
+
 }
 
 // ファイル削除
@@ -175,6 +178,7 @@ function delFile(fname) {
 		}, fail);
 	}, fail);
 }
+
 // ファイル操作　error処理
 function fail(error) {
 	console.log("ファイル処理失敗: " + error.code);
@@ -191,11 +195,13 @@ function getonOrdering(callfn) {
 		console.log("OK : ordering");
 		getonMSG(json, callfn);
 	}
+
 	function getonOrderingNG() {
 		console.log("NG : ordering");
 		location.href = "index.html";
 		return false;
 	}
+
 }
 
 // 超重要メッセージの出力
@@ -390,5 +396,16 @@ function setLocalStorage(fname, value) {
 	fname += 'exorderdir';
 	window.localStorage.removeItem(fname);
 	window.localStorage.setItem(fname, value);
+}
+
+function popup(title, message) {
+	new $pop(message, {
+		type : 'popup',
+		title : title,
+		width: 240,
+		height: 180,
+		close:false,
+		modal: true
+	});
 }
 
