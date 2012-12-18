@@ -9,8 +9,10 @@
 		<!--<link rel="stylesheet" href="css/jqmobile-patch.css" type="text/css" />-->
 		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
 		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+		<link rel="stylesheet" href="css/popupwindow.css" type="text/css" />
 		
 		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/popupwindow.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
@@ -120,6 +122,28 @@ console.log("getFile2: " + JSON.stringify(json));
 				// 商品情報をセット
 				function setData(params) {
 					console.log("setData : "+params['item_name']);
+					
+					// ステータスのアラート表示 121218 ogawa
+					var get = getQuery();
+					if(get.flg && get.flg == 'barcode'){
+						if (params['item_is_activate_flg'] == 'disable') {
+							// 入荷待ち
+							if (params.item_stock_sts == 'backstock') {
+								popup('alert', '入荷待ち', '商品が入荷され在庫を入力されてから、QRコードを読み取って有効化してください');
+							// 販売中止
+							} else if (params.item_is_stop_flg == 'disable') {
+								popup('alert', '販売中止', '商品の販売を再開されてから、QRコードを読み取って有効化してください');
+							// 販売終了
+							} else if (params.item_stock_sts == 'discontinued') {
+								popup('alert', '販売期間終了', '商品の販売期間を再度設定されてから、QRコードを読み取って有効化してください');
+							// 在庫切れ
+							} else if (params.item_stock_sts == 'nostock' || parseInt(params.item_stock_sts) < 1) {
+								popup('alert', '在庫なし', '商品の在庫を入力されてから、QRコードを読み取って有効化してください');
+							}
+						} else {
+							popup('alert', '有効化済', 'すでに有効化された販売可能な商品です。');
+						}
+					}
 					
 					window.localStorage.removeItem('order_params');
 					window.localStorage.setItem('order_params', JSON.stringify(params));
@@ -348,6 +372,11 @@ console.log("getFile2: " + JSON.stringify(json));
 				setFile(fname, params);
 
 			}
+			
+			// 121218 ogawa show_item_index :id 
+			var get = getQuery();
+			setFile('item_index', get.index, itemIndexOK, itemIndexOK);
+			function itemIndexOK(){}
 
 		</script>
 		

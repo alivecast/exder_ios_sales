@@ -398,12 +398,12 @@ function setLocalStorage(fname, value) {
 	window.localStorage.setItem(fname, value);
 }
 
-function popup(title, message) {
+function popup(type, title, message) {
 	new $pop(message, {
-		type : 'popup',
+		type : type,
 		title : title,
-		width: 240,
-		height: 180,
+		width: 220,
+		height: 140,
 		close:false,
 		modal: true
 	});

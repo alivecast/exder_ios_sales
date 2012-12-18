@@ -1,182 +1,213 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title></title>
+	<head>
+		<title></title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
-<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
 
-<link rel="stylesheet" href="css/iphone.css" type="text/css" />
-<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+		<link rel="stylesheet" href="js/jquery.mobile-1.2.0.min.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+		<script src="js/jquery.activity-indicator-1.0.0.js" type="text/javascript"></script>
 
-<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
+		<script type="text/javascript">
+			$(document).bind("mobileinit", function() {
+				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
 
-<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
+			$(document).ready(function() {
+				document.addEventListener("deviceready", onDeviceReady, false);
+			});
 
-<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
-<script src="js/jquery.activity-indicator-1.0.0.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-
-$( document ).bind( "mobileinit", function() {
-	// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
-	$.support.cors = true;
-	$.mobile.allowCrossDomainPages = true;
-});
-
-$(document).ready(function(){
-	document.addEventListener("deviceready", onDeviceReady, false);
-});
-
-function onDeviceReady() {
-	companyGetSetting(setAct);
-}
-
-
-// 情報ファイルを読み込み
-function setAct(params){
-
-	// 商品ファイル読み込み
-	var postg = {};
-
-	var fname = 'order';
-	getFile(fname,actMain,cardErrMsg);
-	return false;
-
-	function actMain(order) {
-
-		postg['uid']       = params.uid;
-		postg['act_key']   = params.act_key;
-		postg['app_ver']   = params.app_ver;
-		postg['app_code']  = params.app_code;
-		postg['url']       = params.url;
-		postg['http']      = params.http;
-		postg['https']     = params.https;
-
-		postg['qr_id']             = order.qr_id;
-		postg['order_latitude']    = order.order_latitude;
-		postg['order_longitude']   = order.order_longitude;
-
-		// 処理
-		setOrder(postg);
-		return false;
-	}
-}
-
-// サーバー通信を行い値を設定を行なう
-function setOrder(order){
-
-	var url = order.url+'company01/receive_act.php';
-
-	$.ajax({
-		type: "POST",
-		url: url,
-		data:order,
-		success: function(data){
-			// 戻り値により処理を振り分ける
-			if(data.qr_id){
-				if(data.errmsg){
-console.log("-- エラー--");
-					var msg = {};
-					msg['title'] = data.errtitle;
-					msg['msg']   = data.errmsg;
-					cardErrMsg(msg);
-                	return false;
-				}else{
-console.log("-- 注文完了--");
-					okMsg(data.sts);
-                	return false;
-				}
-			}else{
-console.log("-- エラー１--");
-				errMsg();
-                return false;
+			function onDeviceReady() {
+				companyGetSetting(setAct);
 			}
-		},
-		error: function(data) {
-			console.log("通信エラー発生");
-			errMsg();
-		}
-	});
 
-}
+			// 情報ファイルを読み込み
+			function setAct(params) {
 
-function okMsg(sts) {
-    // オーダーを削除    
-	message = '処理を完了しました。';
-	title = '正常終了';
-	button = 'OK';
-	navigator.notification.alert(message, alertCallBackOk(), title, button);
+				// 商品ファイル読み込み
+				var postg = {};
 
-	// 商品情報クリア
-    fname = 'order';
-    var order = {};
-    order['qr_id'] = "";
-    setFile(fname,order);
-    if(sts){
-		location.href = 'show_item_index.html';
-    }else{
-    	location.href = 'barcode.html';
-    }
-}
-function cardErrMsg(msg) {
-    // カードエラー   
-	button = 'OK';
-	if(msg.title){
-	}else{
-		msg.title = "QRコードエラー";
-	}
-	if(msg.msg){
-	}else{
-		msg.msg = "情報に誤りがあります。もう一度、バーコードを撮り直してください。";
-	}
-	navigator.notification.alert(msg.msg, alertCallBack(), msg.title, button);
-	location.href = 'barcode.html';
-}
-function alertCallBackOk() {
+				var fname = 'order';
+				getFile(fname, actMain, cardErrMsg);
+				return false;
 
-}
+				function actMain(order) {
 
-function errMsg() {
-	message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
-	title = 'サーバーと通信できませんでした';
-    button = 'OK';
-    navigator.notification.alert(message, alertCallBack(), title, button);
-    location.href = 'show_item_index.html';
-}
-    
-function alertCallBack() {
-}
+					postg['uid'] = params.uid;
+					postg['act_key'] = params.act_key;
+					postg['app_ver'] = params.app_ver;
+					postg['app_code'] = params.app_code;
+					postg['url'] = params.url;
+					postg['http'] = params.http;
+					postg['https'] = params.https;
 
-</script>
-</head>
-<body>
-	<div data-role="page" id="page_itemDetail" data-add-back-btn="false" data-theme="z">
-		<!-- loading -->
-		<div class="loading" data-role="content" id="loading">
-			<div class="loading_box">
-				<p>しばらくおまちください</p>
-				<div id="loadingImg" class="square"></div>
-				<script>
-					$(function() {
-						$('#loadingImg').activity({
-							segments : 12,
-							width : 6,
-							space : 3,
-							length : 20,
-							color : '#FFFFFF',
-							speed : 1.5,
-							align : 'center',
-							valign : 'center'
+					postg['qr_id'] = order.qr_id;
+					postg['order_latitude'] = order.order_latitude;
+					postg['order_longitude'] = order.order_longitude;
+
+					// 処理
+					setOrder(postg);
+					return false;
+				}
+
+			}
+
+			// サーバー通信を行い値を設定を行なう
+			function setOrder(order) {
+
+				var url = order.url + 'company01/receive_act.php';
+
+				$.ajax({
+					type : "POST",
+					url : url,
+					data : order,
+					success : function(data) {
+						// 戻り値により処理を振り分ける
+						if (data.qr_id) {
+							if (data.errmsg) {
+								console.log("-- エラー--");
+								var msg = {};
+								msg['title'] = data.errtitle;
+								msg['msg'] = data.errmsg;
+								cardErrMsg(msg);
+								return false;
+							} else {
+								console.log("-- 注文完了--");
+								okMsg(data.sts);
+								return false;
+							}
+						} else {
+							console.log("-- エラー１--");
+							errMsg();
+							return false;
+						}
+					},
+					error : function(data) {
+						console.log("通信エラー発生");
+						errMsg();
+					}
+				});
+
+			}
+
+			function okMsg(sts) {
+				// オーダーを削除
+
+				// ダイアログ表示 121218 ogawa
+				var params = {
+					title : '有効化しました',
+					message : '有効化処理を正常に完了しました。',
+					sleep : 3000,
+					url : ''
+				}
+				var paramsText = JSON.stringify(params);
+				// setLocalStorage('popup', paramsText);
+				window.location.href = "popup.html?popup=" + paramsText;
+
+				// 商品情報クリア
+				fname = 'order';
+				var order = {};
+				order['qr_id'] = "";
+				setFile(fname, order);
+				if (sts) {
+					location.href = 'show_item_index.html';
+				} else {
+					location.href = 'barcode.html';
+				}
+			}
+
+			function cardErrMsg(msg) {
+				// カードエラー
+				// button = 'OK';
+				if (msg.title) {
+				} else {
+					msg.title = "QRコードエラー";
+				}
+				if (msg.msg) {
+				} else {
+					msg.msg = "情報に誤りがあります。もう一度、バーコードを撮り直してください。";
+				}
+				// navigator.notification.alert(msg.msg, alertCallBack(), msg.title, button);
+				// location.href = 'barcode.html';
+				
+				// アラート表示 121218 ogawa
+				var params = {
+					type: 'alert',
+					title : msg.title,
+					message : msg.msg,
+					sleep : 0,
+					url : 'barcode.html'
+				}
+				var paramsText = JSON.stringify(params);
+				// setLocalStorage('popup', paramsText);
+				window.location.href = "popup.html?popup=" + paramsText;
+				
+			}
+
+			function alertCallBackOk() {
+
+			}
+
+			function errMsg() {
+				var message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
+				var title = 'サーバーと通信できませんでした';
+				// button = 'OK';
+				// navigator.notification.alert(message, alertCallBack(), title, button);
+				// location.href = 'show_item_index.html';
+				// アラート表示 121218 ogawa
+				var params = {
+					type: 'alert',
+					title : title,
+					message : message,
+					sleep : 0,
+					url : 'show_item_index.html'
+				}
+				var paramsText = JSON.stringify(params);
+				// setLocalStorage('popup', paramsText);
+				window.location.href = "popup.html?popup=" + paramsText;
+			}
+
+			function alertCallBack() {
+			}
+
+		</script>
+	</head>
+	<body>
+		<div data-role="page" id="page_itemDetail" data-add-back-btn="false" data-theme="z">
+			<!-- loading -->
+			<div class="loading" data-role="content" id="loading">
+				<div class="loading_box">
+					<p>
+						しばらくおまちください
+					</p>
+					<div id="loadingImg" class="square"></div>
+					<script>
+						$(function() {
+							$('#loadingImg').activity({
+								segments : 12,
+								width : 6,
+								space : 3,
+								length : 20,
+								color : '#FFFFFF',
+								speed : 1.5,
+								align : 'center',
+								valign : 'center'
+							});
 						});
-					});
-				</script>
+					</script>
+				</div>
 			</div>
 		</div>
-	</div>
-</body>
+	</body>
 </html>

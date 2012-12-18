@@ -237,6 +237,8 @@
                 case 'popup':
                     content = this.getTextContent( content );
                     $( content ).appendTo( $( '#pwbody' + _cnt ) );
+                    //$( '<p class="pwBtn"><a href="javascript:;" id="pwYES' + _cnt + '" class="pwYes"></a></p>' ).appendTo( $( '#pwBtnArea' + _cnt ) );
+                    //$( '#pwYES' + _cnt ).click( ( function( obj ) { return function() { obj.YES.apply( obj, arguments ); } } )( this ) );
                     break;
             }
             
@@ -324,6 +326,7 @@
                     '<a class="minimumBtn" href="javascript:;" title="minimum" id="pwMinimum' + _cnt + '">_</a>' +
                     '<a class="maximumBtn" href="javascript:;" title="maximum" id="pwMaximum' + _cnt + '">[]</a>' +
                 '</div>' );
+            // 121218 ogawa popup table ?
             var winTbl = $(
                 '<table class="pwContainer" id="pwContainer' + _cnt + '" style="height: 100%;">' +
                     '<tr class="titleBar"><td class="pwBarL">&nbsp;</td><td class="pwBarCenter" id="pwbar' + _cnt + '">' + this.title + '</td><td class="pwBarR">&nbsp;</td></tr>' +

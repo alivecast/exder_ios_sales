@@ -6,12 +6,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
 		<meta charset="utf-8">
 
-		<link rel="stylesheet" href="css/popupwindow.css" type="text/css" />
 		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/barcodescanner.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/popupwindow-1.8.1.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
 
 
@@ -28,24 +26,7 @@
 					// キャンセル
 					if (result.cancelled) {
 						
-						// オーディオ再生
-						var src = 'mp3/cancel.mp3';
-						audio = new Media(src, null, null);
-						audio.play();
-						
-						// ダイアログ
-						var title = 'QRコード相違';
-						var message = 'このQRコードは、ExOrderのQRコードではありません。';
-						var sleep = 3000;
-						var url = 'barcode.html'
-						var params = {
-							title: title,
-							message: message,
-							sleep: sleep,
-							url: url
-						}
-						var popup = JSON.stringify(params);
-						window.location.href = "popup.html?popup=" + popup;
+						window.location.href = 'show_item_index.html'
 						
 					// 読み取り
 					} else {
@@ -56,18 +37,21 @@
 							scannerSuccess(result.text);
 						} else {
 							
-							
-							
-							// アラート
-							// var message = 'このQRコードは、ExOrderのQRコードではありません。';
-							// var title = 'QRコード相違';
-							// var button = 'OK';
-							// navigator.notification.alert(message, function() {
-								// // move
-								// var encText = encBase64(result.text);
-								// location.href = "barcode.html";
-								// return false;
-							// }, title, button);
+							// オーディオ再生
+							var src = 'mp3/cancel.mp3';
+							audio = new Media(src, null, null);
+							audio.play();
+						
+							// ダイアログ表示 121218 ogawa
+							var params = {
+								title: 'QRコードが違います',
+								message: 'このQRコードは、ExOrderのQRコードではありません。正しいQRコードを読み込んでください。',
+								sleep: 3000,
+								url: 'barcode.html'
+							}
+							var paramsText = JSON.stringify(params);
+							// setLocalStorage('popup', paramsText);
+							window.location.href = "popup.html?popup=" + paramsText;
 						}
 					}
 				}, function(error) {
@@ -79,9 +63,9 @@
 			// Barcode 読み込み成功　-------------------------------------------------------------
 			function scannerSuccess(result) {
 
+				// オーディオ再生
 				var src = 'mp3/decide.mp3';
 				audio = new Media(src, null, null);
-				// オーディオ再生
 				audio.play();
 
 				// qr_id抽出
@@ -89,29 +73,32 @@
 				var qr_id = cutProtocole.replace(/www.speed-order.jp\/|speed-order.jp\/|www.exorder.jp\/|exorder.jp\//, "");
 				console.log("scannerSuccess: qr_id: " + qr_id);
 
-				window.location.href = 'show_item.html?qr_id=' + String(qr_id) + '&latitude=' + null + '&longitude=' + null;
+				window.location.href = 'show_item.html?flg=barcode&qr_id=' + String(qr_id) + '&latitude=' + null + '&longitude=' + null;
 			}
 
 			// Barcode 読み込み失敗　---------------------------------------------------------------
 			function scannerFailure(message) {
-				// console.log("scannerFailure: message: " + message)
-				// src から Media オブジェクトを作成
+				
+				// オーディオ再生
 				var src = 'mp3/cancel.mp3';
 				audio = new Media(src, null, null);
-				// オーディオ再生
 				audio.play();
 
-				var message = 'もう一度QRコードを撮影してください';
-				var title = 'QRコードの読み取りに失敗しました';
-				var button = 'OK';
-				navigator.notification.alert(message, function() {
-
-				}, title, button);
+				// ダイアログ表示 121218 ogawa
+				var params = {
+					title: 'QRコードの読み取りに失敗しました',
+					message: 'もう一度QRコードを撮影してください',
+					sleep: 3000,
+					url: 'barcode.html'
+				}
+				var paramsText = JSON.stringify(params);
+				// setLocalStorage('popup', paramsText);
+				window.location.href = "popup.html?popup=" + paramsText;
 			}
 
 		</script>
 	</head>
 
-	<body style="background-color: #000;">
+	<body style="background-color: rgba(0,0,0,0.4);">
 	</body>
 </html>

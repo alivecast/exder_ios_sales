@@ -34,6 +34,7 @@
 				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
 				$.support.cors = true;
 				$.mobile.allowCrossDomainPages = true;
+				$.mobile.hashListeningEnabled = false;
 			});
 		
 			$(document).ready(function(){
@@ -69,7 +70,7 @@
 						$('#loading').css('display', 'none');
 						$('#content').css('display', 'block');
 						// 購入一覧表示
-						console.log('ORDER_INDEX: ' + JSON.stringify(data));
+					//	console.log('ORDER_INDEX: ' + JSON.stringify(data));
 						show_order_index(data);
 					},
 					error: function() {
@@ -105,17 +106,17 @@
 				if (length > 0) {
 					
 					for (var i = 0; i < length; i++) {
-						console.log('order: ' + JSON.stringify(orders[i].item_name));
+					//	console.log('order: ' + JSON.stringify(orders[i].item_name));
 						var qr_id = orders[i].qr_id;
 						var order_index = '';
 
 						if (orders[i].item_is_activate_flg == 'disable') {
-							order_index += '<dt>有効化 待ち</dt>';
+							order_index += '<dt id="item_index_' + String(i) + '">有効化 待ち</dt>';
 						}else{
-							order_index += '<dt><span class="date">'+orders[i].item_is_activate_date+'</span>有効化済</dt>';
+							order_index += '<dt id="item_index_' + String(i) + '"><span class="date">'+orders[i].item_is_activate_date+'</span>有効化済</dt>';
 						}
 						order_index += '<dd><ul data-role="listview" class="listview"><li>';
-						order_index += '<a href="show_item.html?qr_id=' + qr_id + '&qr_id_noact=' + qr_id + '" target="_blank">';
+						order_index += '<a href="show_item.html?index=item_index_' + String(i) + '&qr_id=' + qr_id + '&qr_id_noact=' + qr_id + '" target="_blank">';
 						if (orders[i].item_is_activate_flg == 'disable') {
 							// 有効化待ち
 							order_index += '<div class="order_cancel">';
@@ -166,6 +167,17 @@
 				}
 				$('.listview').listview();
 			}
+			
+			// getFile('item_index', itemIndexOK, itemIndexOK);
+			// function itemIndexOK(index){
+			// console.log('item_index_' + String(index));
+			// $('#' + String(index)).focus();
+			// }
+			
+			$(function() {
+				$("#item_index_5").scrollTop(50);
+			});
+			
 
 		</script>
 		
