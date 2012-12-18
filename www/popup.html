@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/popupwindow.css" type="text/css" />
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/popupwindow.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+	</head>
+	<script type="text/javascript">
+		$(function() {
+			var popup = getQuery();
+			var title = popup.title;
+			var message = popup.message;
+			setTimeout(function(){
+				window.location.href = popup.url;
+			},parseInt(popup.sleep));
+			popup(popup.title, popup.message);
+		});
+	</script>
+	<body style="background-color: #000;">
+	</body>
+</html>
