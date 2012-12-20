@@ -120,11 +120,12 @@
 				var order = {};
 				order['qr_id'] = "";
 				setFile(fname, order);
-				if (sts) {
-					location.href = 'show_item_index.html';
-				} else {
-					location.href = 'barcode.html';
-				}
+				// if (sts) {
+					// location.href = 'show_item_index.html';
+				// } else {
+					// location.href = 'barcode.html';
+				// }
+				location.href = 'show_item_index.html';
 			}
 
 			function cardErrMsg(msg) {
@@ -136,7 +137,7 @@
 				}
 				if (msg.msg) {
 				} else {
-					msg.msg = "情報に誤りがあります。もう一度、バーコードを撮り直してください。";
+					msg.msg = "QRコードの情報に誤りがあります。QRーコードをご確認の上、再度撮り直してください。";
 				}
 				// navigator.notification.alert(msg.msg, alertCallBack(), msg.title, button);
 				// location.href = 'barcode.html';
@@ -147,7 +148,7 @@
 					title : msg.title,
 					message : msg.msg,
 					sleep : 0,
-					url : 'barcode.html'
+					url : 'show_item_index.html'
 				}
 				var paramsText = JSON.stringify(params);
 				// setLocalStorage('popup', paramsText);
@@ -160,7 +161,7 @@
 			}
 
 			function errMsg() {
-				var message = '通信が混み合っているか、通信環境がよくないため、もうしばらくお待ちしてから、接続しなおしてください。';
+				var message = '通信が込み合っているか通信環境が良くないため、しばらく時間をおいてから再接続して再度操作をしてください。';
 				var title = 'サーバーと通信できませんでした';
 				// button = 'OK';
 				// navigator.notification.alert(message, alertCallBack(), title, button);

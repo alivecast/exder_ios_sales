@@ -36,6 +36,15 @@
 			// 設定ファイル読み込み
 			function onDeviceReady() {
 				
+				// 121218 ogawa show_item_index :id 
+				var get = getQuery();
+				var itemIndex = {};
+				itemIndex = {index: get.index};
+				setFile('list_item_index', itemIndex, setIndexOK, setIndexOK);
+				function setIndexOK(){
+					console.log(JSON.stringify(itemIndex));
+				}
+				
 				$('#loading').css('display', 'block');
 				$('#content').css('display', 'none');
 				
@@ -141,7 +150,22 @@ console.log("getFile2: " + JSON.stringify(json));
 								popup('alert', '在庫なし', '商品の在庫を入力されてから、QRコードを読み取って有効化してください');
 							}
 						} else {
-							popup('alert', '有効化済', 'すでに有効化された販売可能な商品です。');
+							
+							// 入荷待ち
+							if (params.item_stock_sts == 'backstock') {
+								popup('alert', '入荷待ち', '現在、入荷待ちになっている、有効化されている商品です。');
+							// 販売中止
+							} else if (params.item_is_stop_flg == 'disable') {
+								popup('alert', '販売中止', '現在、販売中止されている、有効化されている商品です。');
+							// 販売終了
+							} else if (params.item_stock_sts == 'discontinued') {
+								popup('alert', '販売期間終了', '現在、販売期間が終了されている、有効化されている商品です。');
+							// 在庫切れ
+							} else if (params.item_stock_sts == 'nostock' || parseInt(params.item_stock_sts) < 1) {
+								popup('alert', '在庫なし', '現在、在庫が切れている、有効化されている商品です。');
+							} else {
+								popup('alert', '有効化済', '有効化されている販売可能な商品です。');
+							}
 						}
 					}
 					
@@ -265,44 +289,6 @@ console.log("getFile2: " + JSON.stringify(json));
 					shop_contact = shop_contact + params.item_short_desc + '</div>';
 					document.getElementById("shop_contact").innerHTML = shop_contact;
 
-					// 販売社名
-					// document.getElementById("company_name").innerText = String(params['company_name']);
-					// document.getElementById("company_name_2").innerText = String(params['company_name']);
-					// // 営業時間
-					// if (params['company_liaise'] && params['company_liaise'] != "") {
-						// var company_liaise = '（営業時間: ' + params['company_liaise'] + '）';
-						// document.getElementById("company_liaise").innerText = company_liaise;
-					// }
-					// // 代表者
-					// document.getElementById("company_president").innerText = params['company_president'];
-// 
-					// // 住所
-					// var zipcode = "";
-					// if (params['company_zip'] && params['company_zip'] != "") {
-						// zipcode = "〒" + params.company_zip + " ";
-					// }
-					// document.getElementById("company_address").innerText = String(zipcode + params['company_address1']) + String(params['company_address2']) + String(params['company_address3']);
-					// // 電話　特商
-					// $("#company_phone2").text(params['company_phone']);
-					// // 商品代金以外に必要な金額
-					// if (params['company_charge'] && params['company_charge'] != "") {
-						// document.getElementById("company_charge").innerText = params['company_charge'];
-					// } else {
-						// document.getElementById("company_charge").innerText = '商品代金以外の必要料金はありません。';
-					// }
-					// // 商品引き渡し
-					// if (params['company_report_time'] && params['company_report_time'] != "") {
-						// document.getElementById("company_report_time").innerText = params['company_report_time'];
-					// } else {
-						// document.getElementById("company_report_time").innerText = 'ご入金確認後のお届けになります。詳しい到着日はお尋ね下さい。';
-					// }
-					// // 返品
-					// if (params['company_returned'] && params['company_returned'] != "") {
-						// document.getElementById("company_returned").innerText = params['company_returned'];
-					// } else {
-						// document.getElementById("company_returned").innerText = 'お届けした商品がお申し込みと異なっていた場合は交換させて頂きます。';
-					// }
-
 					$('.item_summary').listview();
 					
 				}
@@ -372,11 +358,6 @@ console.log("getFile2: " + JSON.stringify(json));
 				setFile(fname, params);
 
 			}
-			
-			// 121218 ogawa show_item_index :id 
-			var get = getQuery();
-			setFile('item_index', get.index, itemIndexOK, itemIndexOK);
-			function itemIndexOK(){}
 
 		</script>
 		

@@ -15,17 +15,12 @@
 		<link rel="stylesheet" href="css/iphone.css" type="text/css" />
 				
 		<script type="text/javascript" charset="utf-8" src="js/jquery-1.8.2.min.js"></script>
-
 		<script type="text/javascript" charset="utf-8" src="js/base64.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/aes.js"></script>
-
 		<script type="text/javascript" charset="utf-8" src="js/main.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/company.js"></script>
-
 		<script type="text/javascript" charset="utf-8" src="js/cordova-1.5.0.js"></script>
 		<script src="js/jquery.activity-indicator-1.0.0.js" type="text/javascript"></script>
-
-
 
 		<script type="text/javascript">
 		
@@ -34,7 +29,7 @@
 				// jQuery Mobile フレームワークの設定変更は、ここで行なってください！
 				$.support.cors = true;
 				$.mobile.allowCrossDomainPages = true;
-				$.mobile.hashListeningEnabled = false;
+			//	$.mobile.hashListeningEnabled = false;
 			});
 		
 			$(document).ready(function(){
@@ -43,6 +38,16 @@
 
 			// 設定ファイル読み込み
 			function onDeviceReady() {
+				
+				getFile('list_item_index', getItemIndexOK,getItemIndexNG);
+				function getItemIndexOK(obj){
+					$("#index_link_wrap").css("display", "block");
+				//	$("#index_link_wrap").trriger("click");
+				}
+				function getItemIndexNG(){
+					$("#index_link_wrap").css("display", "none");
+				}
+				
 				companyGetSetting(settingOK);
 			}
 
@@ -116,7 +121,7 @@
 							order_index += '<dt id="item_index_' + String(i) + '"><span class="date">'+orders[i].item_is_activate_date+'</span>有効化済</dt>';
 						}
 						order_index += '<dd><ul data-role="listview" class="listview"><li>';
-						order_index += '<a href="show_item.html?index=item_index_' + String(i) + '&qr_id=' + qr_id + '&qr_id_noact=' + qr_id + '" target="_blank">';
+						order_index += '<a href="show_item.html?index=' + String(i) + '&qr_id=' + qr_id + '&qr_id_noact=' + qr_id + '" target="_blank">';
 						if (orders[i].item_is_activate_flg == 'disable') {
 							// 有効化待ち
 							order_index += '<div class="order_cancel">';
@@ -168,19 +173,7 @@
 				$('.listview').listview();
 			}
 			
-			// getFile('item_index', itemIndexOK, itemIndexOK);
-			// function itemIndexOK(index){
-			// console.log('item_index_' + String(index));
-			// $('#' + String(index)).focus();
-			// }
-			
-			$(function() {
-				$("#item_index_5").scrollTop(50);
-			});
-			
-
 		</script>
-		
 		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
 		
 	</head>
@@ -218,6 +211,12 @@
 
 			<!-- content -->
 			<div class="cont_orderInfoApp_index" data-role="content" id="content" style="display:none;">
+				
+				<!--
+				<div id="index_link_wrap" class="qr_activation_tl01" style="background-color: #fff;">
+					<a id="index_link" href="#" data-role="button" data-position="fixed" style="background-color: #999;color: #fff;">詳細を見た商品へ移動</a>
+				</div>
+				-->
 
 				<div id="update_time2" class="qr_activation_tl01">QR有効化　待ち</div>
 				<p class="qr_activation_txt" id="order_indexs_text_no">下記の商品は、このアプリでQRコードを読み取ると販売可能になります。</p>
@@ -243,6 +242,21 @@
 				</ul>
 			</div><!-- /dr-footer -->
 		</div>
+		<script type="text/javascript">
+			// $('#index_link').on('click', function() {
+				// getFile('list_item_index', getItemIndexOK,getItemIndexNG);
+				// function getItemIndexOK(obj){
+					// var index = obj.index;
+					// var p = $('#item_index_' + String(index)).position();
+				// //	$.mobile.silentScroll(-56 + p.top + -28);
+					// $.mobile.silentScroll(-56 + p.top);
+					// delFile('list_item_index');
+				// }
+				// function getItemIndexNG(){
+					// console.log('getItemIndexNG');
+				// }
+			// });
+		</script>
 
 	</body>
 </html>

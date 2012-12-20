@@ -105,7 +105,7 @@ function setFile(fname, jsonObj, okfn, errfn) {
 		}, function(fileEntry) {
 			fileEntry.createWriter(function(writer) {
 				writer.onwrite = function(evt) {
-					console.log("書き込み成功");
+					console.log("書き込み成功: " + JSON.stringify(jsonObj));
 				};
 				writer.onerror = function(evt) {
 					console.log('書き込みに失敗' + evt.toString());
@@ -143,11 +143,13 @@ function getFile(fname, okfn, errfn) {
 					console.log("getFile::正常にファイルを読み込みました。");
 					// 複号化
 					if (text) {
+						console.log("getFile:isText");
 						var encText = text;
 						var obj = decAesObj(encText);
 						callback = $FN(okfn);
 						return callback(obj);
 					} else {
+						console.log("getFile:noText");
 						callback = $FN(errfn);
 						return callback()
 					}
